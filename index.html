@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>تسجيل / دخول</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body class="dark-theme">
+  <div class="container">
+    <div class="card glass">
+      <h1>مرحبًا</h1>
+      <p class="muted">تسجيل / دخول</p>
+
+      <input id="email" type="email" placeholder="البريد الإلكتروني"/>
+      <input id="password" type="password" placeholder="كلمة المرور"/>
+
+      <button onclick="login()">دخول</button>
+      <button class="secondary" onclick="register()">تسجيل جديد</button>
+
+      <div class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+      </html>
