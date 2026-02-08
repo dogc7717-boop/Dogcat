@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body class="dark-theme">
+  <div class="container">
+    <div class="card glass">
+      <h2>لوحة التحكم</h2>
+      <p id="status">جارٍ التحميل...</p>
+
+      <button onclick="goPolicy()">سياسات التطبيق</button>
+      <button onclick="logout()" class="secondary">تسجيل خروج</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+  <script>
+    async function loadProfile(){
+      const { data: { user } } = await sb.auth.getUser();
+      if(!user){
+        window.location.href = "index.html";
+        return;
+      }
+
+      const { data } = await sb
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+      if(!data.accepted_policy){
+        document.getElementById("status").innerText =
+          "لازم توافق على سياسات التطبيق";
+      } else if(!data.is_active){
+        document.getElementById("status").innerText =
+          "حسابك غير مفعل، انتظر كود التفعيل";
+      } else {
+        document.getElementById("status").innerText =
+          "حسابك مفعل ✔️";
+      }
+    }
+
+    function goPolicy(){
+      window.location.href = "policy.html";
+    }
+
+    async function logout(){
+      await sb.auth.signOut();
+      window.location.href = "index.html";
+    }
+
+    loadProfile();
+  </script>
+</body>
+  </html>
