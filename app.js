@@ -47,7 +47,10 @@ async function register() {
   const { error } = await sb.auth.signInWithOtp({
     email,
     options: {
-      emailRedirectTo: window.location.origin + "/dashboard.html",
+      emailRedirectTo:
+  window.location.origin +
+  window.location.pathname.replace("index.html", "") +
+  "dashboard.html",
     },
   });
 
