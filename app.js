@@ -1,8 +1,8 @@
 // ==================
 // Supabase init (NO import)
 // ==================
-const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
-const SUPABASE_ANON_KEY = "YOUR_PUBLIC_ANON_KEY";
+const SUPABASE_URL = "https://dxqpttiffkdrtbwzmvcd.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_CWdAdibfoDfxUpALqTyOHQ_Jltfbggt";
 
 const supabase = supabaseJs.createClient(
   SUPABASE_URL,
