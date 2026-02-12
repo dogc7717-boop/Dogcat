@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل حساب جديد</title>
+<link rel="stylesheet" href="main_style.css">
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <h2>تسجيل حساب جديد</h2>
+
+    <input type="text" id="signupName" placeholder="الاسم بالكامل" required>
+    <input type="text" id="signupPhone" placeholder="رقم الهاتف" required>
+    <input type="email" id="signupEmail" placeholder="البريد الإلكتروني" required>
+    <input type="text" id="signupCode" placeholder="كود الإحالة (اختياري)">
+    <input type="password" id="signupPassword" placeholder="كلمة المرور" required>
+    <input type="password" id="signupConfirm" placeholder="تأكيد كلمة المرور" required>
+
+    <button onclick="signupUser()">تسجيل</button>
+
+    <p>لديك حساب بالفعل؟</p>
+    <button onclick="window.location.href='login_page.html'">تسجيل الدخول</button>
+  </div>
+</div>
+
+<script src="auth_script.js"></script>
+</body>
+</html>
