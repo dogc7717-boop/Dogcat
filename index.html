@@ -1,33 +1,24 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>تسجيل / دخول</title>
-
-  <link rel="stylesheet" href="style.css"/>
-
-  <!-- Supabase v2 (global window.supabase) -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2" defer></script>
+<meta charset="UTF-8">
+<title>تسجيل دخول</title>
+<link rel="stylesheet" href="style.css">
 </head>
+<body>
 
-<body class="dark-theme">
-  <div class="container">
-    <div class="card glass">
-      <h1>مرحبًا</h1>
-      <p class="muted">تسجيل / دخول</p>
+<div class="card">
+<h2>تسجيل دخول</h2>
 
-      <input id="email" type="email" placeholder="البريد الإلكتروني"/>
-      <input id="password" type="password" placeholder="كلمة المرور"/>
+<form id="loginForm">
+<input type="text" id="loginPhone" placeholder="رقم الهاتف (01xxxxxxxxx)" required>
+<input type="password" id="loginPassword" placeholder="كلمة المرور" required>
+<button type="submit">دخول</button>
+</form>
 
-      <button onclick="login()">دخول</button>
-      <button class="secondary" onclick="register()">تسجيل جديد</button>
+<p>ليس لديك حساب؟ <a href="register.html">تسجيل</a></p>
+</div>
 
-      <div class="theme-toggle" onclick="toggleTheme()">🌙 / ☀️</div>
-    </div>
-  </div>
-
-  <!-- App JS -->
-  <script src="app.js" defer></script>
+<script src="auth.js"></script>
 </body>
 </html>
