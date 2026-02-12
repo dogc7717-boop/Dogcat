@@ -1,0 +1,138 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #0f0f0f;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 350px;
+  padding: 30px;
+  border-radius: 22px;
+  text-align: center;
+  background: #1a1a1a;
+  box-shadow: 0 0 40px rgba(0, 123, 255, 0.5);
+}
+
+input {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  font-size: 15px;
+}
+
+button {
+  margin-top: 15px;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(45deg, #007BFF, #00BFFF);
+  color: #fff;
+}
+
+.result {
+  margin-top: 20px;
+  font-size: 18px;
+  min-height: 40px;
+  color: #00BFFF;
+  font-weight: bold;
+}
+
+.verse-list {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.verse-item {
+  background: #222;
+  border-radius: 25px;
+  padding: 15px 20px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.25s, background 0.25s;
+}
+.verse-item:hover {
+  background: #007BFF;
+}
+.verse-item.expanded {
+  transform: scale(1.05);
+}
+
+.tasbeeh-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+.tasbeeh-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 30%;
+}
+.tasbeeh-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 12px;
+  font-weight: bold;
+  background: linear-gradient(45deg, #007BFF, #00BFFF);
+  color: #fff;
+}
+.sub-counter {
+  margin-top: 5px;
+  font-size: 14px;
+  color: yellow;
+}
+
+.counters {
+  font-size: 18px;
+  margin: 15px 0;
+}
+.counter-box {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  margin: 2px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff;
+  background: #007BFF;
+  border-radius: 6px;
+}
+
+.popup {
+  position: fixed;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0,0,0,0.6);
+}
+.popupCard {
+  background: #222;
+  padding: 30px;
+  border-radius: 20px;
+  font-size: 18px;
+  text-align: center;
+}
