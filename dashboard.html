@@ -2,58 +2,49 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard</title>
 <link rel="stylesheet" href="style.css">
-<script src="app.js" defer></script>
 </head>
-<body class="dark-theme">
+<body>
 
-<!-- Navbar -->
 <div class="navbar">
-  <button onclick="showTab('profile')">صفحتك</button>
-  <button onclick="showTab('about')">عنا</button>
-  <button onclick="showTab('payment')">دفع</button>
-  <button onclick="showTab('subscriptions')">اشتراكاتي</button>
-  <button onclick="showTab('gameContainer')">اللعبة</button>
-  <button onclick="logout()" class="logout">تسجيل خروج</button>
+<button onclick="showTab('profile')">صفحتك</button>
+<button onclick="showTab('about')">عنا</button>
+<button onclick="showTab('payment')">دفع</button>
+<button onclick="showTab('subscriptions')">اشتراكاتي</button>
+<button onclick="showTab('game')">اللعبة</button>
+<button onclick="logout()">تسجيل خروج</button>
 </div>
 
-<div class="container">
+<div class="content">
 
-  <!-- Profile Tab -->
-  <div id="profile" class="tab">
-    <h2>صفحتك</h2>
-    <p id="userInfo"></p>
-  </div>
+<div id="profile" class="tab">
+<h3>بياناتك</h3>
+<pre id="userInfo"></pre>
+</div>
 
-  <!-- About Tab -->
-  <div id="about" class="tab" style="display:none">
-    <h2>عنا</h2>
-    <p style="text-align:center;margin-top:50px;">قريبًا</p>
-  </div>
+<div id="about" class="tab" style="display:none">
+<h3>قريباً</h3>
+</div>
 
-  <!-- Payment Tab -->
-  <div id="payment" class="tab" style="display:none">
-    <h2>دفع</h2>
-    <p style="text-align:center;margin-top:50px;">قريبًا</p>
-  </div>
+<div id="payment" class="tab" style="display:none">
+<h3>قريباً</h3>
+</div>
 
-  <!-- Subscriptions Tab -->
-  <div id="subscriptions" class="tab" style="display:none">
-    <h2>اشتراكاتي</h2>
-    <div id="subscriptionList"></div>
-    <h3>الاشتراكات المتاحة</h3>
-    <div id="availableSubs"></div>
-  </div>
+<div id="subscriptions" class="tab" style="display:none">
+<h3>اشتراكاتي</h3>
+<div id="subscriptionList"></div>
+<h3>الاشتراكات المتاحة</h3>
+<div id="availableSubs"></div>
+</div>
 
-  <!-- Game Tab -->
-  <div id="gameContainer" class="tab" style="display:none; width:100%; height:600px; overflow:hidden; position:relative;">
-    <iframe id="gameFrame" src="https://username.github.io/repo/game/index.html"
-            style="border:none; width:100%; height:100%; display:block;"></iframe>
-    <div id="gameCountdown" style="position:absolute; top:10px; right:10px; color:#fff; font-weight:bold;"></div>
-  </div>
+<div id="game" class="tab" style="display:none">
+<h3>صفحة اللعبة</h3>
+<div id="gameContainer"></div>
+</div>
 
 </div>
+
+<script src="dashboard.js"></script>
 </body>
-      </html>
+</html>
