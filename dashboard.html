@@ -1,69 +1,59 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة التحكم</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<script src="app.js" defer></script>
 </head>
-
 <body class="dark-theme">
-  <div class="container">
-    <div class="card glass">
 
-      <h2>لوحة التحكم</h2>
+<!-- Navbar -->
+<div class="navbar">
+  <button onclick="showTab('profile')">صفحتك</button>
+  <button onclick="showTab('about')">عنا</button>
+  <button onclick="showTab('payment')">دفع</button>
+  <button onclick="showTab('subscriptions')">اشتراكاتي</button>
+  <button onclick="showTab('gameContainer')">اللعبة</button>
+  <button onclick="logout()" class="logout">تسجيل خروج</button>
+</div>
 
-      <p id="status">جارٍ التحميل...</p>
+<div class="container">
 
-      <button onclick="logout()" class="secondary" style="margin-top:15px;">
-        تسجيل خروج
-      </button>
-
-    </div>
+  <!-- Profile Tab -->
+  <div id="profile" class="tab">
+    <h2>صفحتك</h2>
+    <p id="userInfo"></p>
   </div>
 
-  <script src="app.js"></script>
+  <!-- About Tab -->
+  <div id="about" class="tab" style="display:none">
+    <h2>عنا</h2>
+    <p style="text-align:center;margin-top:50px;">قريبًا</p>
+  </div>
 
-  <script>
-    async function protectDashboard() {
-      const { data: { user } } = await sb.auth.getUser();
+  <!-- Payment Tab -->
+  <div id="payment" class="tab" style="display:none">
+    <h2>دفع</h2>
+    <p style="text-align:center;margin-top:50px;">قريبًا</p>
+  </div>
 
-      // 1️⃣ مش مسجل دخول
-      if (!user) {
-        window.location.href = "index.html";
-        return;
-      }
+  <!-- Subscriptions Tab -->
+  <div id="subscriptions" class="tab" style="display:none">
+    <h2>اشتراكاتي</h2>
+    <div id="subscriptionList"></div>
+    <h3>الاشتراكات المتاحة</h3>
+    <div id="availableSubs"></div>
+  </div>
 
-      const { data: profile, error } = await sb
-        .from("profiles")
-        .select("accepted_policy, is_active")
-        .eq("id", user.id)
-        .single();
+  <!-- Game Tab -->
+  <div id="gameContainer" class="tab" style="display:none; width:100%; height:600px; overflow:hidden; position:relative;">
+    <iframe id="gameFrame" src="https://username.github.io/repo/game/index.html"
+            style="border:none; width:100%; height:100%; display:block;"></iframe>
+    <div id="gameCountdown" style="position:absolute; top:10px; right:10px; color:#fff; font-weight:bold;"></div>
+  </div>
 
-      if (error || !profile) {
-        document.getElementById("status").innerText =
-          "خطأ في تحميل بيانات الحساب";
-        return;
-      }
-
-      // 2️⃣ لم يوافق على السياسات
-      if (!profile.accepted_policy) {
-        window.location.href = "policy.html";
-        return;
-      }
-
-      // 3️⃣ غير مفعل (نجهز لها في الخطوة 4)
-      document.getElementById("status").innerText =
-        "مرحبًا 👋 تم الدخول بنجاح";
-    }
-
-    async function logout() {
-      await sb.auth.signOut();
-      window.location.href = "index.html";
-    }
-
-    protectDashboard();
-  </script>
+</div>
 </body>
-</html>
+      </html>
