@@ -9,7 +9,7 @@
 <body>
 
 <div class="container">
-  <!-- Navbar علوي -->
+  <!-- Navbar علوي ثابت -->
   <nav class="navbar">
     <button onclick="showTab('profile')">صفحتك</button>
     <button onclick="showTab('about')">عنا</button>
@@ -48,18 +48,37 @@
     <div id="game" class="tab" style="display:none">
       <h3>صفحة اللعبة</h3>
 
-      <!-- لعبة الآيات -->
+      <!-- إدخال الكلمات -->
       <input id="textInput" placeholder="اكتب أي كلمة للبحث">
       <button id="btn">عرض النتائج</button>
+
+      <!-- النتائج -->
       <div id="result"></div>
       <div id="verseList" class="verse-list"></div>
 
-      <!-- العدادات -->
+      <!-- أزرار التسبيح الثلاثة -->
+      <div class="tasbeeh-buttons">
+        <div class="tasbeeh-block">
+          <button class="tasbeeh-btn" data-index="0">سبحان الله</button>
+          <div class="sub-counter" id="subCount0">0</div>
+        </div>
+        <div class="tasbeeh-block">
+          <button class="tasbeeh-btn" data-index="1">الحمد لله</button>
+          <div class="sub-counter" id="subCount1">0</div>
+        </div>
+        <div class="tasbeeh-block">
+          <button class="tasbeeh-btn" data-index="2">الله أكبر</button>
+          <div class="sub-counter" id="subCount2">0</div>
+        </div>
+      </div>
+
+      <!-- العدادات الرئيسية -->
       <div class="counters">
         <p>عداد الجلسة : <span id="sessionCount"></span></p>
         <p>عداد دائم : <span id="totalCount"></span></p>
       </div>
 
+      <!-- زر مسح العداد الدائم -->
       <button id="resetTotal">🗑 مسح العداد الدائم</button>
     </div>
   </div>
