@@ -7,7 +7,9 @@
 <link rel="stylesheet" href="main_style.css">
 </head>
 <body>
+
 <div class="container">
+  <!-- Navbar -->
   <div class="navbar">
     <button onclick="showTab('profile')">صفحتك</button>
     <button onclick="showTab('about')">عنا</button>
@@ -45,11 +47,24 @@
     <!-- صفحة اللعبة -->
     <div id="game" class="tab" style="display:none">
       <h3>صفحة اللعبة</h3>
-      <div id="gameContainer"></div>
+
+      <!-- لعبة الآيات -->
+      <input id="textInput" placeholder="اكتب أي كلمة للبحث">
+      <button id="btn">عرض النتائج</button>
+      <div id="result"></div>
+      <div id="verseList" class="verse-list"></div>
+
+      <!-- العدادات -->
+      <div class="counters">
+        <p>عداد الجلسة : <span id="sessionCount"></span></p>
+        <p>عداد دائم : <span id="totalCount"></span></p>
+      </div>
+
+      <button id="resetTotal">🗑 مسح العداد الدائم</button>
     </div>
   </div>
 </div>
 
 <script src="dashboard_script.js"></script>
 </body>
-  </html>
+      </html>
