@@ -9,15 +9,15 @@
 <body>
 
 <div class="container">
-  <!-- Navbar -->
-  <div class="navbar">
+  <!-- Navbar علوي -->
+  <nav class="navbar">
     <button onclick="showTab('profile')">صفحتك</button>
     <button onclick="showTab('about')">عنا</button>
     <button onclick="showTab('payment')">دفع</button>
     <button onclick="showTab('subscriptions')">اشتراكاتي</button>
     <button onclick="showTab('game')">اللعبة</button>
-    <button onclick="logoutUser()">تسجيل خروج</button>
-  </div>
+    <button class="logout" onclick="logoutUser()">تسجيل خروج</button>
+  </nav>
 
   <div class="content">
     <!-- بيانات المستخدم -->
@@ -67,4 +67,4 @@
 
 <script src="dashboard_script.js"></script>
 </body>
-      </html>
+</html>
