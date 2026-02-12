@@ -7,20 +7,46 @@
 <link rel="stylesheet" href="main_style.css">
 </head>
 <body>
-
 <div class="container">
-  <div class="card">
-    <h2>لوحة التحكم</h2>
+  <div class="navbar">
+    <button onclick="showTab('profile')">صفحتك</button>
+    <button onclick="showTab('about')">عنا</button>
+    <button onclick="showTab('payment')">دفع</button>
+    <button onclick="showTab('subscriptions')">اشتراكاتي</button>
+    <button onclick="showTab('game')">اللعبة</button>
+    <button onclick="logoutUser()">تسجيل خروج</button>
+  </div>
 
-    <p id="welcomeUser"></p>
+  <div class="content">
+    <!-- بيانات المستخدم -->
+    <div id="profile" class="tab">
+      <h3>بياناتك</h3>
+      <pre id="userInfo"></pre>
+    </div>
 
-    <button onclick="window.location.href='game_page.html'">
-      دخول صفحة اللعبة
-    </button>
+    <!-- صفحة عنا -->
+    <div id="about" class="tab" style="display:none">
+      <h3>قريباً</h3>
+    </div>
 
-    <button onclick="logoutUser()">
-      تسجيل خروج
-    </button>
+    <!-- صفحة الدفع -->
+    <div id="payment" class="tab" style="display:none">
+      <h3>قريباً</h3>
+    </div>
+
+    <!-- الاشتراكات -->
+    <div id="subscriptions" class="tab" style="display:none">
+      <h3>اشتراكاتي</h3>
+      <div id="subscriptionList"></div>
+      <h3>الاشتراكات المتاحة</h3>
+      <div id="availableSubs"></div>
+    </div>
+
+    <!-- صفحة اللعبة -->
+    <div id="game" class="tab" style="display:none">
+      <h3>صفحة اللعبة</h3>
+      <div id="gameContainer"></div>
+    </div>
   </div>
 </div>
 
