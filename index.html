@@ -12,7 +12,7 @@
     <a href="index.html">الرئيسية</a>
     <a href="prayer.html">مواعيد الصلاة</a>
     <a href="donate.html">تبرع</a>
-    <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+    <button class="settings-btn" id="settingsBtn">⚙️</button>
 </nav>
 
 <div class="container">
@@ -35,8 +35,7 @@
     </div>
 </div>
 
-<!-- إعدادات -->
-<div id="settingsPanel">
+<div id="settingsPanel" class="settings-card">
     <h3>إعدادات التطبيق</h3>
 
     <label>خلفية التطبيق:</label>
@@ -52,12 +51,10 @@
     <label>رفع صوت الأذان:</label>
     <input type="file" id="audioUpload">
     <button onclick="saveAudio()">تطبيق الصوت</button>
-
-    <button onclick="toggleSettings()" class="close-settings">إغلاق</button>
 </div>
 
 <footer>@samehelnady</footer>
 
 <script src="js/app.js"></script>
 </body>
-    </html>
+            </html>
