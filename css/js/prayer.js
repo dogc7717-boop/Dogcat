@@ -33,3 +33,15 @@ newData[day][p]=document.getElementById(day+p).value;
 localStorage.setItem("prayers",JSON.stringify(newData));
 alert("تم الحفظ");
   }
+
+document.getElementById("savePrayers").onclick = function() {
+
+    const fajr = document.getElementById("fajr").value;
+    const dhuhr = document.getElementById("dhuhr").value;
+
+    localStorage.setItem("fajr", fajr);
+    localStorage.setItem("dhuhr", dhuhr);
+
+    document.getElementById("fajrCell").innerText = fajr;
+    document.getElementById("dhuhrCell").innerText = dhuhr;
+  }
