@@ -12,7 +12,7 @@
     <a href="index.html">الرئيسية</a>
     <a href="prayer.html">مواعيد الصلاة</a>
     <a href="donate.html">تبرع</a>
-    <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+    <button class="settings-btn" id="settingsBtn">⚙️</button>
 </nav>
 
 <div class="container">
@@ -44,7 +44,6 @@
 
 <div class="card">
 <h3>إضافة موعد جديد</h3>
-<div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;">
 <select id="daySelect">
     <option>الأربعاء</option>
     <option>الخميس</option>
@@ -67,11 +66,10 @@
 <input type="time" id="prayerInput">
 <button onclick="addPrayer()">إظهار</button>
 </div>
-</div>
 
 <footer>@samehelnady</footer>
 
 <script src="js/app.js"></script>
 <script src="js/prayer.js"></script>
 </body>
-                               </html>
+                </html>
