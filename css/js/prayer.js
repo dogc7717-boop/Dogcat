@@ -45,3 +45,7 @@ document.getElementById("savePrayers").onclick = function() {
     document.getElementById("fajrCell").innerText = fajr;
     document.getElementById("dhuhrCell").innerText = dhuhr;
   }
+
+localStorage.setItem("audioFile", base64Data);
+localStorage.setItem("playedToday", JSON.stringify({Fajr:false,Dhuhr:false,Asr:false,Maghrib:false,Isha:false}));
+localStorage.setItem("lastDate", "YYYY-MM-DD"); // لتتبع اليوم
