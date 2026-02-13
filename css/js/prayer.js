@@ -1,28 +1,36 @@
-document.addEventListener("DOMContentLoaded", function(){
-  let prayers = JSON.parse(localStorage.getItem("prayers"))||{};
-  const days = ["الأربعاء","الخميس","الجمعة","السبت","الأحد","الإثنين","الثلاثاء"];
-  const times = ["إمساك","فجر","ظهر","عصر","مغرب","عشاء"];
+// ===================
+// توليد جدول الأيام والصلوات تلقائياً
+// ===================
+const days = ["الأربعاء","الخميس","الجمعة","السبت","الأحد","الإثنين","الثلاثاء"];
+const prayers = ["إمساك","فجر","ظهر","عصر","مغرب","عشاء"];
+const tableBody = document.getElementById("prayerTable");
 
-  function renderTable(){
-    days.forEach(day=>{
-      times.forEach(time=>{
-        const id=`${day}-${time}`;
-        const cell=document.getElementById(id);
-        if(cell) cell.innerText=prayers[id]||"";
-      });
-    });
-  }
-  renderTable();
-
-  window.addPrayer=function(){
-    const day=document.getElementById("daySelect").value;
-    const time=document.getElementById("timeSelect").value;
-    const val=document.getElementById("prayerInput").value;
-    if(!val) return alert("أدخل الوقت");
-    const id=`${day}-${time}`;
-    prayers[id]=val;
-    localStorage.setItem("prayers",JSON.stringify(prayers));
-    renderTable();
-  }
-
+days.forEach(day => {
+  const tr = document.createElement("tr");
+  const tdDay = document.createElement("td");
+  tdDay.innerText = day;
+  tr.appendChild(tdDay);
+  prayers.forEach(() => {
+    const td = document.createElement("td");
+    td.innerText = "-";
+    tr.appendChild(td);
+  });
+  tableBody.appendChild(tr);
 });
+
+// ===================
+// إضافة وقت الصلاة حسب الاختيار
+// ===================
+function addPrayer() {
+  const daySelected = document.getElementById("daySelect").value;
+  const timeSelected = document.getElementById("timeSelect").value;
+  const inputTime = document.getElementById("prayerInput").value;
+
+  if(!inputTime) return alert("أدخل الوقت أولاً");
+
+  const rowIndex = days.indexOf(daySelected);
+  const colIndex = prayers.indexOf(timeSelected) + 1; // العمود الأول لاسم اليوم
+
+  const table = document.getElementById("prayerTable");
+  table.rows[rowIndex].cells[colIndex].innerText = inputTime;
+}
