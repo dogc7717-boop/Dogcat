@@ -1,4 +1,77 @@
-body{
+body{for(let i=1;i<=3;i++){
+
+let count=localStorage.getItem("count"+i) || 0;
+document.getElementById("count"+i).innerText=count;
+
+let text=localStorage.getItem("btnText"+i);
+if(text) document.getElementById("btn"+i).innerText=text;
+
+document.getElementById("btn"+i).onclick=function(){
+count++;
+document.getElementById("count"+i).innerText=count;
+localStorage.setItem("count"+i,count);
+}
+
+document.getElementById("edit"+i).onchange=function(){
+let val=this.value;
+document.getElementById("btn"+i).innerText=val;
+localStorage.setItem("btnText"+i,val);
+}
+}
+
+function reset(num){
+localStorage.setItem("count"+num,0);
+document.getElementById("count"+num).innerText=0;
+}
+
+let general=localStorage.getItem("generalText");
+if(general){
+document.getElementById("displayText").innerText=general;
+}
+
+document.getElementById("generalText").oninput=function(){
+localStorage.setItem("generalText",this.value);
+document.getElementById("displayText").innerText=this.value;
+}
+
+document.getElementById("textColor").oninput=function(){
+document.getElementById("displayText").style.color=this.value;
+localStorage.setItem("textColor",this.value);
+}
+
+let savedColor=localStorage.getItem("textColor");
+if(savedColor){
+document.getElementById("displayText").style.color=savedColor;
+}
+
+document.getElementById("imageUpload").onchange=function(e){
+let file=e.target.files[0];
+let reader=new FileReader();
+reader.onload=function(){
+let images=JSON.parse(localStorage.getItem("images")||"[]");
+images.push(reader.result);
+localStorage.setItem("images",JSON.stringify(images));
+}
+reader.readAsDataURL(file);
+}
+
+function changeBackground(){
+let val=document.getElementById("bgInput").value;
+document.body.style.background=val;
+localStorage.setItem("bg",val);
+}
+
+let bg=localStorage.getItem("bg");
+if(bg) document.body.style.background=bg;
+
+function saveAudio(){
+let val=document.getElementById("audioInput").value;
+localStorage.setItem("audio",val);
+document.getElementById("player").src=val;
+}
+
+let audio=localStorage.getItem("audio");
+if(audio) document.getElementById("player").src=audio;
     margin:0;
     font-family:'Cairo',sans-serif;
     background:linear-gradient(135deg,#0f172a,#1e293b);
@@ -104,3 +177,7 @@ img{
     opacity:0.8;
     font-size:14px;
 }
+
+localStorage.setItem("audioFile", base64Data);
+localStorage.setItem("playedToday", JSON.stringify({Fajr:false,Dhuhr:false,Asr:false,Maghrib:false,Isha:false}));
+localStorage.setItem("lastDate", "YYYY-MM-DD"); // لتتبع اليوم
