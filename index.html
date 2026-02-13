@@ -1,60 +1,50 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>المسبحة الإلكترونية</title>
+<title>تطبيق الذكر</title>
 <link rel="stylesheet" href="css/style.css">
+<style>
+  /* صفحة البداية */
+  body {
+    margin:0;
+    font-family: 'Cairo', sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    background-color:white;
+    overflow:hidden;
+  }
+  #godWord {
+    font-size: 80px;
+    color: #004D00;
+    font-family: 'Kufi', sans-serif;
+    cursor:pointer;
+    transform: scale(1);
+    transition: transform 1s ease-in-out;
+  }
+  #godWord.animate {
+    transform: scale(3);
+  }
+</style>
 </head>
 <body>
+  <div id="godWord">الله</div>
 
-<nav class="top-nav">
-    <a href="index.html">الرئيسية</a>
-    <a href="prayer.html">مواعيد الصلاة</a>
-    <a href="donate.html">دعم التطبيق</a>
-    <button class="settings-btn" id="settingsBtn">⚙️</button>
-</nav>
+<script>
+  const godWord = document.getElementById("godWord");
 
-<div class="container">
+  godWord.addEventListener("click", () => {
+    // إضافة تأثير التكبير
+    godWord.classList.add("animate");
 
-<div class="card buttons">
-    <div class="zikr-box">
-        <button class="zikr-btn" id="btn1">سبحان الله</button>
-        <div class="count" id="count1">0</div>
-        <button class="reset-btn" onclick="reset(1)">تصفير</button>
-    </div>
-    <div class="zikr-box">
-        <button class="zikr-btn" id="btn2">الحمد لله</button>
-        <div class="count" id="count2">0</div>
-        <button class="reset-btn" onclick="reset(2)">تصفير</button>
-    </div>
-    <div class="zikr-box">
-        <button class="zikr-btn" id="btn3">الله أكبر</button>
-        <div class="count" id="count3">0</div>
-        <button class="reset-btn" onclick="reset(3)">تصفير</button>
-    </div>
-</div>
-
-<div id="settingsPanel" class="settings-card">
-    <h3>إعدادات التطبيق</h3>
-
-    <label>خلفية التطبيق:</label>
-    <input type="file" id="bgUpload">
-    <button onclick="changeBackground()">تطبيق الخلفية</button>
-
-    <label>تغيير نصوص أزرار التسبيح:</label>
-    <input type="text" placeholder="زر 1" id="btn1Text">
-    <input type="text" placeholder="زر 2" id="btn2Text">
-    <input type="text" placeholder="زر 3" id="btn3Text">
-    <button onclick="changeButtonsText()">تطبيق النصوص</button>
-
-    <label>رفع صوت الأذان:</label>
-    <input type="file" id="audioUpload">
-    <button onclick="saveAudio()">تطبيق الصوت</button>
-</div>
-
-<footer>@samehelnady</footer>
-
-<script src="js/app.js"></script>
+    // بعد انتهاء الحركة، الانتقال لواجهة التطبيق
+    setTimeout(() => {
+      window.location.href = "main.html"; // هنا رابط الصفحة الرئيسية للتطبيق
+    }, 1000); // مدة الانتقال بعد 1 ثانية
+  });
+</script>
 </body>
-            </html>
+</html>
