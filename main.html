@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تطبيق الذكر</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- البار العلوي -->
+  <div class="top-nav">
+    <a href="main.html">الرئيسية</a>
+    <a href="prayer.html">مواقيت الصلاة</a>
+    <a href="donate.html">دعم التطبيق</a>
+    <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+  </div>
+
+  <!-- إعدادات التطبيق (نافذة جانبية) -->
+  <div id="settingsPanel">
+    <h3>إعدادات التطبيق</h3>
+    <button onclick="toggleSettings()" class="close-settings">إغلاق</button>
+    <input type="file" id="bgUpload" accept="image/*">
+    <button onclick="changeBackground()">تغيير الخلفية</button>
+    <input type="text" id="btn1Text" placeholder="تغيير نص الزر 1">
+    <input type="text" id="btn2Text" placeholder="تغيير نص الزر 2">
+    <input type="text" id="btn3Text" placeholder="تغيير نص الزر 3">
+    <button onclick="changeButtonsText()">حفظ نصوص الأزرار</button>
+    <input type="file" id="audioUpload" accept="audio/*">
+    <button onclick="saveAudio()">رفع صوت الأذان</button>
+  </div>
+
+  <!-- المحتوى الرئيسي -->
+  <div class="container">
+    <div class="buttons">
+      <div class="zikr-box">
+        <button id="btn1" class="zikr-btn">الله أكبر</button>
+        <div id="count1" class="count">0</div>
+        <button class="reset-btn" onclick="reset(1)">تصفير</button>
+      </div>
+      <div class="zikr-box">
+        <button id="btn2" class="zikr-btn">سبحان الله</button>
+        <div id="count2" class="count">0</div>
+        <button class="reset-btn" onclick="reset(2)">تصفير</button>
+      </div>
+      <div class="zikr-box">
+        <button id="btn3" class="zikr-btn">الحمد لله</button>
+        <div id="count3" class="count">0</div>
+        <button class="reset-btn" onclick="reset(3)">تصفير</button>
+      </div>
+    </div>
+
+    <!-- لفظ الجلالة أسفل الأزرار -->
+    <div style="margin-top:30px; font-size:50px; color:#004D00; font-family:'Kufi',sans-serif;">الله</div>
+  </div>
+
+<script src="js/app.js"></script>
+</body>
+      </html>
