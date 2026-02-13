@@ -1,3 +1,92 @@
+body{
+    margin:0;
+    font-family:'Cairo',sans-serif;
+    background:linear-gradient(135deg,#0f172a,#1e293b);
+    color:white;
+    text-align:center;
+}
+
+nav{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    padding:15px;
+    font-weight:bold;
+}
+
+nav a{
+    color:#facc15;
+    text-decoration:none;
+    font-size:18px;
+}
+
+.container{
+    max-width:420px;
+    margin:auto;
+    padding:15px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    padding:20px;
+    margin-top:20px;
+}
+
+.buttons{
+    display:flex;
+    gap:10px;
+}
+
+.zikr-box{
+    flex:1;
+}
+
+.zikr-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:15px;
+    background:linear-gradient(45deg,#facc15,#f59e0b);
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.reset-btn{
+    background:red;
+    color:white;
+    border:none;
+    border-radius:10px;
+    padding:6px;
+    margin-top:6px;
+    width:100%;
+}
+
+input,button{
+    margin-top:8px;
+    padding:8px;
+    border-radius:10px;
+    border:none;
+    width:100%;
+}
+
+.glow-text{
+    margin-top:15px;
+    font-size:22px;
+    animation:fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn{
+    from{opacity:0;}
+    to{opacity:1;}
+}
+
+img{
+    width:100%;
+    border-radius:15px;
+    margin-top:10px;
+}
 .donate-glass{
     height:300px;
     display:flex;
