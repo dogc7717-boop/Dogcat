@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تبرع</title>
+<title>المسبحة الإلكترونية</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -11,36 +11,58 @@
 <nav>
 <a href="index.html">الرئيسية</a>
 <a href="prayer.html">مواعيد الصلاة</a>
+<a href="gallery.html">الصور</a>
 <a href="donate.html">تبرع</a>
 </nav>
 
 <div class="container">
 
-<div class="donate-glass">
+<div class="card">
+<div class="buttons">
 
-<div id="donateText">
-تبرع لدعم التطبيق
+<div class="zikr-box">
+<button class="zikr-btn" id="btn1">سبحان الله</button>
+<input type="text" id="edit1" placeholder="تغيير النص">
+<div id="count1">0</div>
+<button class="reset-btn" onclick="reset(1)">تصفير</button>
+</div>
+
+<div class="zikr-box">
+<button class="zikr-btn" id="btn2">الحمد لله</button>
+<input type="text" id="edit2" placeholder="تغيير النص">
+<div id="count2">0</div>
+<button class="reset-btn" onclick="reset(2)">تصفير</button>
+</div>
+
+<div class="zikr-box">
+<button class="zikr-btn" id="btn3">الله أكبر</button>
+<input type="text" id="edit3" placeholder="تغيير النص">
+<div id="count3">0</div>
+<button class="reset-btn" onclick="reset(3)">تصفير</button>
 </div>
 
 </div>
-
-<div class="donate-footer">
-يمكنك التواصل على الرقم 01000000000
 </div>
 
+<div class="card">
+<input type="text" id="generalText" placeholder="اكتب نص يظهر هنا">
+<input type="color" id="textColor">
+<div class="glow-text" id="displayText"></div>
 </div>
 
-</body>
-</html>
-<div>
-<button id="akbarBtn" onclick="increment('akbar')">الله أكبر</button>
-<input type="text" placeholder="تغيير نص الزر" oninput="changeBtnText('akbar',this.value)">
-<div id="akbarCount" class="count">0</div>
+<div class="card">
+<input type="file" id="imageUpload">
 </div>
 
+<div class="card">
+<input type="text" id="bgInput" placeholder="رابط صورة خلفية أو لون">
+<button onclick="changeBackground()">تغيير الخلفية</button>
 </div>
 
-<button class="reset" onclick="resetAll()">تصفير الكل</button>
+<div class="card">
+<input type="text" id="audioInput" placeholder="رابط صوتي">
+<button onclick="saveAudio()">حفظ الصوت</button>
+<audio id="player" controls></audio>
 </div>
 
 </div>
