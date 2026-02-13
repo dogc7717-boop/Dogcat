@@ -20,20 +20,14 @@
 
 <div class="container">
 
-<div class="card">
-<h3>النص أعلى الصفحة</h3>
-<input type="text" id="donateTextInput" oninput="updateDonateText()" placeholder="اكتب النص هنا">
-<div id="donateTextDisplay" class="display"></div>
-</div>
+<div class="donate-card">
 
-<div class="card">
-<h3>رقم الهاتف</h3>
-<input type="text" id="donatePhoneInput" oninput="updateDonatePhone()" placeholder="01XXXXXXXXX">
-<div id="donatePhoneDisplay" class="display"></div>
-</div>
+    <h2 id="fixedText">النص أعلى الصفحة</h2>
+
+    <input type="text" id="topTextInput" placeholder="اكتب النص هنا">
+
+    <input type="text" id="phoneInput" placeholder="01XXXXXXXXX">
+
+    <button onclick="saveDonate()">حفظ</button>
 
 </div>
-
-<script src="js/donate.js"></script>
-</body>
-</html>
