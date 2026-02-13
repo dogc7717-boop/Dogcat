@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تبرع</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header>
+تبرع
+<nav>
+<a href="index.html">الرئيسية</a>
+<a href="prayer.html">مواعيد الصلاة</a>
+<a href="donate.html">تبرع</a>
+</nav>
+</header>
+
+<div class="container">
+
+<div class="card">
+<h3>النص أعلى الصفحة</h3>
+<input type="text" id="donateTextInput" oninput="updateDonateText()" placeholder="اكتب النص هنا">
+<div id="donateTextDisplay" class="display"></div>
+</div>
+
+<div class="card">
+<h3>رقم الهاتف</h3>
+<input type="text" id="donatePhoneInput" oninput="updateDonatePhone()" placeholder="01XXXXXXXXX">
+<div id="donatePhoneDisplay" class="display"></div>
+</div>
+
+</div>
+
+<script src="js/donate.js"></script>
+</body>
+</html>
