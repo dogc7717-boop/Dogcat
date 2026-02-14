@@ -1,43 +1,58 @@
-:root {
-    --gold: linear-gradient(180deg, #FFD700 0%, #B8860B 100%);
-    --bg-dark: #0a0e17;
-    --text-color: #ffffff;
-    --accent: #9c27b0;
+let count = 0;
+const daysList = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
+
+// بصمة المبرمج SAMEHELNADY
+console.log("%cDeveloped by SAMEHELNADY", "color:gold; font-size:20px; font-weight:bold;");
+
+function addCount() { 
+    count++; 
+    document.getElementById('counter').innerText = count; 
+    
+    // تشغيل الصوت والاهتزاز
+    const snd = document.getElementById('clickSound');
+    if(snd) { snd.currentTime = 0; snd.play(); }
+    if(navigator.vibrate) navigator.vibrate(40); 
 }
 
-/* دعم الوضع الفاتح لو الموبايل مضبوط عليه */
-@media (prefers-color-scheme: light) {
-    :root {
-        --bg-dark: #f5f5f5;
-        --text-color: #1a1a1a;
-        --accent: #673ab7;
+function resetCounter() { 
+    count = 0; 
+    document.getElementById('counter').innerText = 0; 
+}
+
+function setZekr(z) { 
+    document.getElementById('zekrName').innerText = z; 
+    resetCounter(); 
+}
+
+function showPage(p) {
+    document.getElementById('subhaPage').style.display = p === 'subha' ? 'block' : 'none';
+    document.getElementById('prayerPage').style.display = p === 'prayer' ? 'block' : 'none';
+}
+
+function toggleSettings() {
+    let s = document.getElementById('settingsPanel');
+    if(s) s.style.display = (s.style.display === 'block') ? 'none' : 'block';
+}
+
+// توليد الجدول عند تحميل الصفحة
+window.onload = function() {
+    const tableBody = document.getElementById('tableBody');
+    if(tableBody) {
+        tableBody.innerHTML = ""; // مسح المحتوى القديم أولاً
+        daysList.forEach(d => {
+            tableBody.innerHTML += `
+            <tr>
+                <td style="font-weight:bold; color:gold;">${d}</td>
+                <td contenteditable="true">04:15</td> 
+                <td contenteditable="true">04:30</td> 
+                <td contenteditable="true">12:05</td> 
+                <td contenteditable="true">03:20</td> 
+                <td contenteditable="true">06:10</td> 
+                <td contenteditable="true">07:30</td> 
+            </tr>`;
+        });
     }
-}
+};
 
-body {
-    margin: 0; padding: 0;
-    background: var(--bg-dark);
-    color: var(--text-color);
-    font-family: 'Cairo', sans-serif;
-    display: flex; flex-direction: column; min-height: 100vh;
-    transition: all 0.3s ease;
-}
-
-.main-circle {
-    width: 200px; height: 200px;
-    border: 6px solid var(--accent);
-    border-radius: 50%;
-    display: flex; justify-content: center; align-items: center;
-    box-shadow: 0 0 20px var(--accent);
-    cursor: pointer;
-}
-
-#counter { font-size: 5rem; font-weight: bold; color: #00ff88; }
-
-nav {
-    position: fixed; bottom: 0; width: 100%;
-    background: rgba(0,0,0,0.9);
-    display: flex; justify-content: space-around; padding: 15px 0;
-}
-
-.active { color: gold; font-weight: bold; }
+// حماية الكود ومنع كليك يمين
+document.addEventListener('contextmenu', e => e.preventDefault());
