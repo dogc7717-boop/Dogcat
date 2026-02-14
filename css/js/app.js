@@ -1,59 +1,28 @@
-// ===================
-// نافذة الإعدادات (فتح/غلق)
-// ===================
+function addPrayer() {
+    const day = document.getElementById('daySelect').value;
+    const type = document.getElementById('timeSelect').value;
+    const time = document.getElementById('prayerInput').value;
+
+    if (!time) {
+        alert("يرجى اختيار الوقت أولاً ⚠️");
+        return;
+    }
+
+    // إضافة صف جديد للجدول بشكل ديناميكي
+    const table = document.getElementById('prayerTable');
+    const newRow = table.insertRow();
+    
+    // ملاحظة: هنا بنملى البيانات كنموذج تجريبي
+    for(let i=0; i<7; i++) {
+        let cell = newRow.insertCell(i);
+        cell.innerHTML = (i === 0) ? day : "--:--";
+        if((i === 1 && type === "إمساك") || (i === 2 && type === "فجر")) cell.innerHTML = time;
+        // يمكن تطوير المنطق لملء الخلية المحددة بالضبط
+    }
+
+    alert(`تم تحديث وقت ${type} ليوم ${day}`);
+}
+
 function toggleSettings() {
-  const panel = document.getElementById("settingsPanel");
-  if (panel.style.right === "0px") {
-    panel.style.right = "-350px";
-  } else {
-    panel.style.right = "0px";
-  }
-}
-
-// ===================
-// تغيير الخلفية
-// ===================
-function changeBackground() {
-  const file = document.getElementById("bgUpload").files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      document.body.style.backgroundImage = `url(${e.target.result})`;
-      document.body.style.backgroundSize = "cover";
-      document.body.style.backgroundPosition = "center";
-    };
-    reader.readAsDataURL(file);
-  }
-}
-
-// ===================
-// رفع صوت الأذان
-// ===================
-function saveAudio() {
-  const file = document.getElementById("audioUpload").files[0];
-  if (file) {
-    const audioURL = URL.createObjectURL(file);
-    localStorage.setItem("azanAudio", audioURL);
-    alert("تم رفع صوت الأذان بنجاح");
-  }
-}
-
-// ===================
-// عدادات التسبيح
-// ===================
-let counts = [0,0,0];
-
-function increment(index) {
-  counts[index]++;
-  document.getElementById("count"+(index+1)).innerText = counts[index];
-}
-
-function reset(index) {
-  counts[index] = 0;
-  document.getElementById("count"+(index+1)).innerText = 0;
-}
-
-// ربط الأزرار بالعدادات
-document.getElementById("btn1").addEventListener("click", ()=> increment(0));
-document.getElementById("btn2").addEventListener("click", ()=> increment(1));
-document.getElementById("btn3").addEventListener("click", ()=> increment(2));
+    alert("الإعدادات ستتوفر في التحديث القادم ⚙️");
+    }
