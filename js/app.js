@@ -1,0 +1,34 @@
+let count = 0;
+const days = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
+
+function hideSplash() { setTimeout(() => document.getElementById('splash').style.opacity = '0', 2000); setTimeout(() => document.getElementById('splash').style.display = 'none', 2500); }
+
+function addCount() { count++; document.getElementById('counter').innerText = count; if(navigator.vibrate) navigator.vibrate(40); }
+
+function resetCounter() { count = 0; document.getElementById('counter').innerText = 0; }
+
+function setZekr(z) { document.getElementById('zekrName').innerText = z; resetCounter(); }
+
+function showPage(p) {
+    document.getElementById('subhaPage').style.display = p === 'subha' ? 'block' : 'none';
+    document.getElementById('prayerPage').style.display = p === 'prayer' ? 'block' : 'none';
+}
+
+function toggleSettings() {
+    let s = document.getElementById('settingsPanel');
+    s.style.display = s.style.display === 'block' ? 'none' : 'block';
+}
+
+function changeColor(c) { document.body.style.backgroundColor = c; document.body.style.backgroundImage = 'none'; }
+
+function changeBg(e) {
+    let r = new FileReader();
+    r.onload = function() { document.body.style.backgroundImage = `url(${r.result})`; }
+    r.readAsDataURL(e.target.files[0]);
+}
+
+// توليد الجدول
+const tableBody = document.getElementById('tableBody');
+days.forEach(d => {
+    tableBody.innerHTML += `<tr><td>${d}</td><td contenteditable="true">04:30</td><td contenteditable="true">18:00</td></tr>`;
+});
