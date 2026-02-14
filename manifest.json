@@ -1,0 +1,13 @@
+{
+  "name": "تطبيق سامح النادي",
+  "short_name": "مسبحة سامح",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#1a2a6c",
+  "theme_color": "#1a2a6c",
+  "icons": [{
+    "src": "https://cdn-icons-png.flaticon.com/512/2972/2972352.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }]
+}
