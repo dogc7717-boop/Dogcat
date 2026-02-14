@@ -1,7 +1,24 @@
-const cacheName = 'sameh-v2';
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(cacheName).then(cache => cache.addAll(['./', './index.html', './css/style.css', './js/app.js'])));
+const cacheName = 'subha-v1';
+const assets = [
+  './',
+  './index.html',
+  './manifest.json'
+];
+
+// تثبيت الخدمة وتخزين الملفات
+self.addEventListener('install', evt => {
+  evt.waitUntil(
+    caches.open(cacheName).then(cache => {
+      cache.addAll(assets);
+    })
+  );
 });
-self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
+
+// تشغيل التطبيق حتى بدون إنترنت
+self.addEventListener('fetch', evt => {
+  evt.respondWith(
+    caches.match(evt.request).then(rec => {
+      return rec || fetch(evt.request);
+    })
+  );
 });
