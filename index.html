@@ -2,85 +2,202 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> iskar app </title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>مسبحة سامح النادي PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: linear-gradient(180deg, #FFD700 0%, #B8860B 100%);
+            --purple-glow: 0 0 20px rgba(156, 39, 176, 0.7);
+            --bg-color: #0a0e17;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--bg-color) radial-gradient(circle at center, #1a237e 0%, #0a0e17 100%);
+            color: white;
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* تنسيق الأزرار العلوية (الأذكار) */
+        .zekr-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .zekr-grid button {
+            background: var(--gold);
+            border: 1px solid #fff59d;
+            border-radius: 10px;
+            padding: 12px 5px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            color: #331a00;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+            cursor: pointer;
+        }
+
+        /* العداد الكبير المضيء */
+        .counter-container {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #zekrName {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--neon-purple);
+        }
+
+        .main-circle {
+            width: 220px;
+            height: 220px;
+            border: 6px solid #9c27b0;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: rgba(156, 39, 176, 0.1);
+            box-shadow: var(--purple-glow), inset var(--purple-glow);
+            transition: transform 0.1s;
+        }
+
+        .main-circle:active { transform: scale(0.95); }
+
+        #counter {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 20px #00ff88;
+        }
+
+        .reset-btn {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid #9c27b0;
+            color: #ea80fc;
+            padding: 8px 25px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* الإمساكية */
+        #prayerPage { padding: 15px; padding-bottom: 80px; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            overflow: hidden;
+            font-size: 0.85rem;
+        }
+        th { background: #4a148c; padding: 10px; color: gold; }
+        td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
+
+        /* القائمة السفلية */
+        nav {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: space-around;
+            padding: 15px 0;
+            backdrop-filter: blur(5px);
+            border-top: 1px solid #9c27b0;
+        }
+
+        nav span { cursor: pointer; font-size: 1.1rem; opacity: 0.7; }
+        nav span.active { opacity: 1; color: gold; font-weight: bold; }
+    </style>
 </head>
-<body id="mainBody">
+<body>
 
-    <nav>
-        <span onclick="showPage('subha')">📿 المسبحة</span>
-        <span onclick="showPage('prayer')">🗓️ الإمساكية</span>
-    </nav>
-
-    <div id="subhaPage" class="page">
+    <div id="subhaPage">
         <div class="zekr-grid">
             <button onclick="setZekr('الله أكبر')">الله أكبر</button>
             <button onclick="setZekr('الحمد لله')">الحمد لله</button>
             <button onclick="setZekr('سبحان الله')">سبحان الله</button>
-            <button onclick="setZekr('أستغفر الله')">أستغفر الله</button>
         </div>
-        <div class="main-btn" onclick="addCount()">
-            <small id="zekrName">سبحان الله</small>
-            <div id="counter">0</div>
+
+        <div class="counter-container">
+            <div id="zekrName">سبحان الله</div>
+            <div class="main-circle" onclick="addCount()">
+                <div id="counter">0</div>
+            </div>
+            <button class="reset-btn" onclick="resetCounter()">تصفير العداد</button>
         </div>
-        <button class="reset-btn" onclick="resetCounter()">🔄 تصفير</button>
     </div>
 
-    <div id="prayerPage" class="page" style="display:none;">
-        <table id="emsakiaTable">
+    <div id="prayerPage" style="display:none;">
+        <h3 style="color:gold;">إمساكية رمضان</h3>
+        <table>
             <thead>
                 <tr>
-                    <th>اليوم</th>
-                    <th>إمساك</th>
-                    <th>فجر</th>
-                    <th>ظهر</th>
-                    <th>عصر</th>
-                    <th>مغرب</th>
-                    <th>عشاء</th>
+                    <th>اليوم</th><th>فجر</th><th>ظهر</th><th>عصر</th><th>مغرب</th><th>عشاء</th>
                 </tr>
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
     </div>
 
-    <div class="fab-container">
-        <button class="fab" onclick="toggleSettings()"><i class="fas fa-cog"></i></button>
-        <button id="installBtn" class="fab" style="display:none;"><i class="fas fa-download"></i></button>
-    </div>
-
-    <div id="settingsPanel" class="settings-panel">
-        <h4>تخصيص المظهر</h4>
-        <input type="color" onchange="changeColor(this.value)">
-        <input type="file" accept="image/*" onchange="changeBg(event)">
-    </div>
-
-    <audio id="azanAudio"></audio>
+    <nav>
+        <span id="navSubha" class="active" onclick="showPage('subha')">📿 المسبحة</span>
+        <span id="navPrayer" onclick="showPage('prayer')">🗓️ الإمساكية</span>
+    </nav>
 
     <script>
-        // دالة الإخفاء الإجبارية
-        function forceHideSplash() {
-            const splash = document.getElementById('splash');
-            if (splash) {
-                setTimeout(() => {
-                    splash.style.opacity = '0';
-                    setTimeout(() => {
-                        splash.style.display = 'none';
-                    }, 800);
-                }, 2000);
-            }
+        let count = 0;
+        const days = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"];
+
+        function addCount() {
+            count++;
+            document.getElementById('counter').innerText = count;
+            if(navigator.vibrate) navigator.vibrate(50);
         }
-        
-        // تشغيل الإخفاء فور تحميل الصفحة
-        window.addEventListener('load', forceHideSplash);
-        
-        // لو اتأخرت أكتر من 4 ثواني اخفيها برضه (خطة بديلة)
-        setTimeout(forceHideSplash, 4000);
+
+        function resetCounter() {
+            count = 0;
+            document.getElementById('counter').innerText = 0;
+        }
+
+        function setZekr(z) {
+            document.getElementById('zekrName').innerText = z;
+            resetCounter();
+        }
+
+        function showPage(p) {
+            document.getElementById('subhaPage').style.display = p === 'subha' ? 'block' : 'none';
+            document.getElementById('prayerPage').style.display = p === 'prayer' ? 'block' : 'none';
+            document.getElementById('navSubha').className = p === 'subha' ? 'active' : '';
+            document.getElementById('navPrayer').className = p === 'prayer' ? 'active' : '';
+        }
+
+        // توليد جدول الإمساكية
+        const tb = document.getElementById('tableBody');
+        days.forEach(d => {
+            tb.innerHTML += `<tr>
+                <td style="color:gold">${d}</td>
+                <td contenteditable="true">04:30</td>
+                <td contenteditable="true">12:05</td>
+                <td contenteditable="true">03:20</td>
+                <td contenteditable="true">06:10</td>
+                <td contenteditable="true">07:30</td>
+            </tr>`;
+        });
     </script>
-    
-    <script src="js/app.js"></script>
 </body>
     </html>
