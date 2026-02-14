@@ -1,50 +1,79 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تطبيق الذكر</title>
-<link rel="stylesheet" href="css/style.css">
-<style>
-  /* صفحة البداية */
-  body {
-    margin:0;
-    font-family: 'Cairo', sans-serif;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    height:100vh;
-    background-color:white;
-    overflow:hidden;
-  }
-  #godWord {
-    font-size: 80px;
-    color: #004D00;
-    font-family: 'Kufi', sans-serif;
-    cursor:pointer;
-    transform: scale(1);
-    transition: transform 1s ease-in-out;
-  }
-  #godWord.animate {
-    transform: scale(3);
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مواقيت الصلاة | سامح النادي</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="godWord">الله</div>
 
-<script>
-  const godWord = document.getElementById("godWord");
+  <nav class="top-nav">
+    <div class="nav-links">
+        <a href="index.html" class="active">الرئيسية</a>
+        <a href="#">مواقيت الصلاة</a>
+        <a href="#">دعم التطبيق</a>
+    </div>
+    <button class="settings-btn" onclick="toggleSettings()">⚙️</button>
+  </nav>
 
-  godWord.addEventListener("click", () => {
-    // إضافة تأثير التكبير
-    godWord.classList.add("animate");
+  <div class="container">
+    <header class="main-header">
+        <h1>🕌 جدول مواقيت الصلاة</h1>
+        <p>مرحباً بك في تطبيق تنظيم الأوقات الخاص بك</p>
+    </header>
 
-    // بعد انتهاء الحركة، الانتقال لواجهة التطبيق
-    setTimeout(() => {
-      window.location.href = "main.html"; // هنا رابط الصفحة الرئيسية للتطبيق
-    }, 1000); // مدة الانتقال بعد 1 ثانية
-  });
-</script>
+    <div class="card">
+      <div class="table-responsive">
+        <table>
+          <thead>
+            <tr>
+              <th>اليوم</th>
+              <th>إمساك</th>
+              <th>فجر</th>
+              <th>ظهر</th>
+              <th>عصر</th>
+              <th>مغرب</th>
+              <th>عشاء</th>
+            </tr>
+          </thead>
+          <tbody id="prayerTable">
+            <tr>
+                <td>الجمعة</td>
+                <td>04:30</td>
+                <td>04:45</td>
+                <td>12:15</td>
+                <td>03:30</td>
+                <td>06:10</td>
+                <td>07:30</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="input-section">
+        <h3>تحديث المواقيت</h3>
+        <div class="controls">
+            <select id="daySelect">
+              <option>السبت</option><option>الأحد</option><option>الإثنين</option>
+              <option>الثلاثاء</option><option>الأربعاء</option><option>الخميس</option><option>الجمعة</option>
+            </select>
+            <select id="timeSelect">
+              <option>إمساك</option><option>فجر</option><option>ظهر</option>
+              <option>عصر</option><option>مغرب</option><option>عشاء</option>
+            </select>
+            <input type="time" id="prayerInput">
+            <button class="add-btn" onclick="addPrayer()">تحديث الآن</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+        <p>تم التطوير بواسطة <b>@samehelnady</b></p>
+    </footer>
+  </div>
+
+<script src="js/app.js"></script>
 </body>
-</html>
+    </html>
