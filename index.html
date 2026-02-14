@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق سامح النادي</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body id="mainBody" onload="hideSplash()">
+
+    <div id="splash"><h1>اللَّه</h1></div>
+
+    <nav>
+        <span onclick="showPage('subha')">📿 المسبحة</span>
+        <span onclick="showPage('prayer')">🗓️ الإمساكية</span>
+    </nav>
+
+    <div id="subhaPage" class="page">
+        <div class="zekr-grid">
+            <button onclick="setZekr('الله أكبر')">الله أكبر</button>
+            <button onclick="setZekr('الحمد لله')">الحمد لله</button>
+            <button onclick="setZekr('سبحان الله')">سبحان الله</button>
+            <button onclick="setZekr('أستغفر الله')">أستغفر الله</button>
+        </div>
+        <div class="main-btn" onclick="addCount()">
+            <small id="zekrName">سبحان الله</small>
+            <div id="counter">0</div>
+        </div>
+        <button class="reset-btn" onclick="resetCounter()">🔄 تصفير</button>
+    </div>
+
+    <div id="prayerPage" class="page" style="display:none;">
+        <table id="emsakiaTable">
+            <thead>
+    <tr>
+        <th>اليوم</th>
+        <th>إمساك</th>
+        <th>فجر</th>
+        <th>ظهر</th>
+        <th>عصر</th>
+        <th>مغرب</th>
+        <th>عشاء</th>
+    </tr>
+</thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        <div class="azan-settings">
+            <label>صوت الأذان:</label>
+            <select id="azanSelect">
+                <option value="https://www.islamcan.com/audio/adhan/makkah.mp3">أذان مكة</option>
+                <option value="https://www.islamcan.com/audio/adhan/madina.mp3">أذان المدينة</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="fab-container">
+        <button class="fab" onclick="toggleSettings()"><i class="fas fa-cog"></i></button>
+        <button id="installBtn" class="fab" style="display:none;"><i class="fas fa-download"></i></button>
+    </div>
+
+    <div id="settingsPanel" class="settings-panel">
+        <h4>تخصيص المظهر</h4>
+        <input type="color" onchange="changeColor(this.value)">
+        <input type="file" accept="image/*" onchange="changeBg(event)">
+    </div>
+
+    <audio id="azanAudio"></audio>
+    <script src="js/app.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
+    </script>
+</body>
+              </html>
