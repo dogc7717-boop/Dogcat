@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>مسبحة سامح النادي PRO</title>
+    <title>مسبحة رمضان كريم PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
     <style>
         :root {
             --gold: linear-gradient(180deg, #FFD700 0%, #B8860B 100%);
             --purple-glow: 0 0 20px rgba(156, 39, 176, 0.7);
             --bg-dark: #0a0e17;
+            --install-green: #00ff88;
         }
 
         body {
@@ -17,80 +19,95 @@
             background: var(--bg-dark) radial-gradient(circle at center, #1a237e 0%, #0a0e17 100%);
             color: white; font-family: 'Cairo', sans-serif;
             display: flex; flex-direction: column; min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* شبكة الأذكار العلوي */
+        /* 🟢 زر التحميل الأخضر المضيء */
+        #installBtn {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: var(--install-green);
+            color: #000;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 14px;
+            z-index: 9999;
+            display: none; /* هيظهر بس لما المتصفح يوافق */
+            box-shadow: 0 0 15px var(--install-green);
+            cursor: pointer;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* شبكة الأذكار */
         .zekr-grid {
             display: grid; grid-template-columns: repeat(3, 1fr);
-            gap: 10px; padding: 15px; margin-top: 50px;
+            gap: 10px; padding: 15px; margin-top: 70px;
         }
 
         .zekr-grid button {
             background: var(--gold); border: 1px solid #fff59d;
             border-radius: 12px; padding: 12px 5px;
             font-weight: bold; font-size: 0.9rem; color: #331a00;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5); cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
 
-        /* العداد المضيء */
+        /* العداد */
         .counter-container {
             flex-grow: 1; display: flex; flex-direction: column;
             justify-content: center; align-items: center;
         }
 
-        #zekrName {
-            font-size: 1.8rem; margin-bottom: 15px;
-            text-shadow: 0 0 10px #9c27b0;
-        }
+        #zekrName { font-size: 1.8rem; margin-bottom: 15px; text-shadow: 0 0 10px #9c27b0; }
 
         .main-circle {
-            width: 230px; height: 230px;
+            width: 220px; height: 220px;
             border: 6px solid #9c27b0; border-radius: 50%;
             display: flex; justify-content: center; align-items: center;
             background: rgba(156, 39, 176, 0.1);
             box-shadow: var(--purple-glow), inset var(--purple-glow);
-            transition: transform 0.1s; cursor: pointer;
+            transition: transform 0.1s;
         }
 
         .main-circle:active { transform: scale(0.92); }
 
-        #counter {
-            font-size: 5.5rem; font-weight: bold;
-            color: #00ff88; text-shadow: 0 0 25px #00ff88;
-        }
+        #counter { font-size: 5.5rem; font-weight: bold; color: #00ff88; text-shadow: 0 0 25px #00ff88; }
 
-        /* زر التحميل الأخضر */
-        #installBtn {
-            position: fixed; top: 10px; left: 10px;
-            background: #00ff88; color: #000; border: none;
-            padding: 10px 15px; border-radius: 8px;
-            font-weight: bold; display: none; z-index: 1000;
-            box-shadow: 0 0 15px #00ff88;
-        }
-
-        /* الإمساكية */
-        #prayerPage { padding: 15px; display: none; }
-        table {
-            width: 100%; border-collapse: collapse;
-            background: rgba(255, 255, 255, 0.05); border-radius: 10px;
-        }
+        /* الصفحات والجداول */
+        #prayerPage { padding: 15px; display: none; margin-bottom: 80px;}
+        table { width: 100%; border-collapse: collapse; background: rgba(255, 255, 255, 0.05); border-radius: 10px; }
         th { background: #4a148c; padding: 10px; color: gold; }
         td { padding: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
 
         /* التنقل السفلي */
         nav {
             position: fixed; bottom: 0; width: 100%;
-            background: rgba(0, 0, 0, 0.85); display: flex;
+            background: rgba(0, 0, 0, 0.9); display: flex;
             justify-content: space-around; padding: 15px 0;
-            border-top: 1px solid #9c27b0;
+            border-top: 1px solid #9c27b0; z-index: 1000;
         }
         nav span { cursor: pointer; color: #aaa; }
         nav span.active { color: gold; font-weight: bold; }
+
+        .support-btn {
+            margin-top: 20px; background: #24A1DE; color: white !important;
+            padding: 10px 20px; border-radius: 20px; text-decoration: none; font-size: 0.9rem;
+        }
     </style>
 </head>
 <body>
 
-    <button id="installBtn">📥 تثبيت التطبيق</button>
+    <button id="installBtn" onclick="handleInstall()">📥 تثبيت التطبيق</button>
+
+    <audio id="azanAudio" src="https://www.islamcan.com/common/audio/adhan/adhan-from-egypt.mp3"></audio>
 
     <div id="subhaPage">
         <div class="zekr-grid">
@@ -104,15 +121,17 @@
             <div class="main-circle" onclick="addCount()">
                 <div id="counter">0</div>
             </div>
-            <button style="margin-top:20px; background:none; border:1px solid #555; color:#888; border-radius:15px; padding:5px 15px;" onclick="resetCounter()">تصفير</button>
+            <button style="margin-top:15px; background:none; border:1px solid #444; color:#777; border-radius:10px; padding:5px 15px;" onclick="resetCounter()">تصفير</button>
+            <a href="https://t.me/+GYhTcjbn_NUyNTA0" target="_blank" rel="noopener noreferrer" class="support-btn">✈️ دعم عبر تليجرام</a>
         </div>
     </div>
 
     <div id="prayerPage">
-        <h3 style="text-align:center; color:gold;">إمساكية الأسبوع</h3>
+        <h3 style="text-align:center; color:gold;">إمساكية رمضان</h3>
+        <button onclick="playAzan()" style="display:block; margin: 10px auto; background:gold; color:black; border:none; padding:8px 15px; border-radius:8px; font-weight:bold;">🔊 تجربة صوت الأذان</button>
         <table>
             <thead>
-                <tr><th>اليوم</th><th>فجر</th><th>ظهر</th><th>عصر</th><th>مغرب</th></tr>
+                <tr><th>اليوم</th><th>فجر</th><th>عصر</th><th>مغرب</th></tr>
             </thead>
             <tbody id="tableBody"></tbody>
         </table>
@@ -133,15 +152,13 @@
             if(navigator.vibrate) navigator.vibrate(50);
         }
 
-        function resetCounter() {
-            count = 0;
-            document.getElementById('counter').innerText = 0;
+        function playAzan() {
+            document.getElementById('azanAudio').play().catch(e => alert("اضغط أولاً لتشغيل الصوت"));
         }
 
-        function setZekr(z) {
-            document.getElementById('zekrName').innerText = z;
-            resetCounter();
-        }
+        function resetCounter() { count = 0; document.getElementById('counter').innerText = 0; }
+
+        function setZekr(z) { document.getElementById('zekrName').innerText = z; resetCounter(); }
 
         function showPage(p) {
             document.getElementById('subhaPage').style.display = p === 'subha' ? 'block' : 'none';
@@ -150,7 +167,7 @@
             document.getElementById('navPrayer').className = p === 'prayer' ? 'active' : '';
         }
 
-        // كود زر التثبيت
+        // --- منطق زر التحميل الأخضر ---
         let deferredPrompt;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
@@ -158,16 +175,26 @@
             document.getElementById('installBtn').style.display = 'block';
         });
 
-        document.getElementById('installBtn').addEventListener('click', () => {
-            document.getElementById('installBtn').style.display = 'none';
-            deferredPrompt.prompt();
-        });
+        function handleInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        document.getElementById('installBtn').style.display = 'none';
+                    }
+                    deferredPrompt = null;
+                });
+            }
+        }
 
-        // بناء الجدول
         const tb = document.getElementById('tableBody');
         days.forEach(d => {
-            tb.innerHTML += `<tr><td style="color:gold">${d}</td><td>04:30</td><td>12:05</td><td>03:20</td><td>06:10</td></tr>`;
+            tb.innerHTML += `<tr><td style="color:gold">${d}</td><td>04:30</td><td>03:20</td><td>06:10</td></tr>`;
         });
+
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js');
+        }
     </script>
 </body>
-                                                                      </html>
+</html>
