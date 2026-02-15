@@ -1,9 +1,33 @@
 let count = 0;
 let audioCtx;
 let currentAzanAudio = null;
+let deferredPrompt;
 window.lastAzanTime = "";
 
-// 1. التسبيح
+const installBtn = document.getElementById('installBtn');
+const loadingModal = document.getElementById('loadingModal');
+
+// 1. نظام التثبيت المطور
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+});
+
+if(installBtn) {
+    installBtn.addEventListener('click', async () => {
+        loadingModal.style.display = 'flex';
+        if (deferredPrompt) {
+            deferredPrompt.prompt();
+            const { outcome } = await deferredPrompt.userChoice;
+            setTimeout(() => { loadingModal.style.display = 'none'; }, 2000);
+            deferredPrompt = null;
+        } else {
+            setTimeout(() => { loadingModal.style.display = 'none'; }, 2500);
+        }
+    });
+}
+
+// 2. التسبيح
 function addCount() {
     count++;
     document.getElementById('counter').innerText = count;
@@ -22,7 +46,7 @@ function addCount() {
 function resetCounter() { count = 0; document.getElementById('counter').innerText = 0; }
 function setZekr(z) { document.getElementById('zekrName').innerText = z; resetCounter(); }
 
-// 2. المدن والمحافظات
+// 3. المدن والمحافظات
 function updateCityList() {
     const r = document.getElementById('regionSelect').value;
     const s = document.getElementById('citySelect');
@@ -51,7 +75,7 @@ function updateCityList() {
     getPrayerTimes();
 }
 
-// 3. المواقيت
+// 4. المواقيت والأذان
 async function getPrayerTimes() {
     const r = document.getElementById('regionSelect').value;
     const s = document.getElementById('citySelect');
@@ -69,7 +93,6 @@ async function getPrayerTimes() {
     } catch(e) { tb.innerHTML = "<tr><td colspan='2'>خطأ في الاتصال</td></tr>"; }
 }
 
-// 4. تشغيل وإيقاف الأذان
 function playAzan() {
     const btn = document.getElementById('playBtn');
     const selectedFile = document.getElementById('moazenSelect').value;
@@ -79,12 +102,11 @@ function playAzan() {
     }
     currentAzanAudio = new Audio(selectedFile);
     btn.innerText = "⏳ جاري التحميل...";
-    currentAzanAudio.play().then(() => btn.innerText = "⏸️ إيقاف الأذان")
-    .catch(() => { btn.innerText = "▶️ تجربة الأذان"; alert("المس الشاشة لتفعيل الصوت"); });
+    currentAzanAudio.play().then(() => btn.innerText = "⏸️ إيقاف").catch(() => btn.innerText = "▶️ تجربة الأذان");
     currentAzanAudio.onended = () => btn.innerText = "▶️ تجربة الأذان";
 }
 
-function monitorTime() {
+setInterval(() => {
     const now = new Date();
     const currentTime = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
     document.querySelectorAll(".time-cell").forEach(cell => {
@@ -92,8 +114,7 @@ function monitorTime() {
             playAzan(); window.lastAzanTime = currentTime;
         }
     });
-}
-setInterval(monitorTime, 30000);
+}, 30000);
 
 function showPage(p) {
     document.getElementById('subhaPage').style.display = p==='subha'?'block':'none';
