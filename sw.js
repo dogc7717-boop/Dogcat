@@ -1,16 +1,22 @@
-const cacheName = 'sameh-nady-pro-v2';
+const cacheName = 'iskar-pro-v4'; // رفعت الإصدار لـ v4 للتأكد من التحديث بعد حذف المسافات
 const assets = [
   './',
   './index.html',
   './style.css',
   './script.js',
   './manifest.json',
-  'https://fonts.googleapis.com/css2?family=Cairo&display=swap',
-  'https://www.soundjay.com/buttons/sounds/button-16.mp3'
+  './icon.png',
+  './cover.jpg',
+  './Egypt.mp3',     // تم حذف المسافات الزائدة هنا
+  './Egypt_1.mp3',
+  './Egypt_2.mp3',
+  './Egypt_3.mp3',
+  'https://fonts.googleapis.com/css2?family=Cairo&display=swap'
 ];
 
-// تثبيت الخدمة وحفظ الملفات في الذاكرة
+// تثبيت الخدمة وحفظ الملفات الجديدة
 self.addEventListener('install', e => {
+  self.skipWaiting(); 
   e.waitUntil(
     caches.open(cacheName).then(cache => {
       return cache.addAll(assets);
@@ -18,7 +24,7 @@ self.addEventListener('install', e => {
   );
 });
 
-// تشغيل التطبيق حتى لو مفيش إنترنت (Offline Mode)
+// تشغيل التطبيق في وضع الأوفلاين
 self.addEventListener('fetch', e => {
   e.respondWith(
     caches.match(e.request).then(res => {
@@ -27,7 +33,7 @@ self.addEventListener('fetch', e => {
   );
 });
 
-// تحديث الملفات لو عدلت الكود
+// حذف الكاش القديم
 self.addEventListener('activate', e => {
   e.waitUntil(
     caches.keys().then(keys => {
