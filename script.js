@@ -5,21 +5,18 @@
 
 let count = 0;
 window.lastAzanTime = "";
-let audioCtx; // تعريف متغير الصوت لاستخدامه لاحقاً
+let audioCtx; 
 
-// بصمة التطبيق في الكونسول
 console.log("%cDeveloped by ISKAR", "color:gold; font-size:25px; font-weight:bold; text-shadow: 2px 2px 5px black;");
 
-// 1. وظيفة التسبيح (تكة + اهتزاز) - تم تحسينها لتعمل على كل الهواتف
+// 1. وظيفة التسبيح
 function addCount() { 
     count++; 
     const counterDisplay = document.getElementById('counter');
     if(counterDisplay) counterDisplay.innerText = count; 
     
-    // تفعيل الاهتزاز (Vibration)
     if(navigator.vibrate) navigator.vibrate(40); 
 
-    // تفعيل نظام الصوت (AudioContext) عند أول لمسة للمستخدم
     if (!audioCtx) {
         audioCtx = new (window.AudioContext || window.webkitAudioContext)();
     }
@@ -27,7 +24,6 @@ function addCount() {
         audioCtx.resume();
     }
 
-    // توليد صوت "تكة" (Beep) برمجياً
     try {
         let osc = audioCtx.createOscillator();
         let gain = audioCtx.createGain();
@@ -43,53 +39,42 @@ function addCount() {
     }
 }
 
-// 2. وظيفة الأذان (مطابقة تماماً لأسماء ملفاتك على GitHub)
+// 2. وظيفة الأذان (تم تعديل الأسماء لتطابق GitHub)
 function playAzan() {
-    // قائمة الملفات كما ظهرت في مستودعك
-    const azanFiles = ["اذان مصر.mp3", "اذان مصر 1.mp3", "اذان مصر 2.mp3", "اذان مصر 3.mp3"];
+    const azanFiles = ["Egypt.mp3", "Egypt_1.mp3", "Egypt_2.mp3", "Egypt_3.mp3"];
     
-    // اختيار ملف عشوائي عند كل أذان للتنوع
     const randomAzan = azanFiles[Math.floor(Math.random() * azanFiles.length)];
-    
     const audio = new Audio(randomAzan);
     
-    // محاولة التشغيل
     audio.play().then(() => {
         console.log("تم تشغيل الأذان بنجاح: " + randomAzan);
     }).catch(err => {
-        console.log("المتصفح حظر الصوت التلقائي. يرجى لمس الصفحة مرة واحدة لتفعيله.");
+        console.log("يرجى لمس الصفحة مرة واحدة لتفعيل الصوت.");
     });
 }
 
-// 3. مراقبة الوقت ومقارنته بالجدول
+// 3. مراقبة الوقت
 function monitorPrayerTimes() {
     const now = new Date();
-    // تنسيق الوقت الحالي (HH:mm) مثل 04:15 أو 18:30
     const hr = now.getHours().toString().padStart(2, '0');
     const min = now.getMinutes().toString().padStart(2, '0');
     const currentTime = hr + ":" + min;
 
-    // البحث في كل خانات الجدول القابلة للتعديل
     const timeCells = document.querySelectorAll("td[contenteditable='true']");
     timeCells.forEach(cell => {
         const prayerTime = cell.innerText.trim();
-        
-        // إذا تطابق وقت الخانة مع الساعة الحالية
         if (prayerTime === currentTime) {
-            // التأكد من عدم تكرار الأذان في نفس الدقيقة
             if (window.lastAzanTime !== currentTime) {
                 playAzan();
                 window.lastAzanTime = currentTime;
-                console.log("حان الآن موعد الأذان: " + currentTime);
             }
         }
     });
 }
 
-// فحص الوقت كل 20 ثانية لضمان الدقة وتوفير البطارية
 setInterval(monitorPrayerTimes, 20000);
 
-// 4. وظائف التنقل بين الصفحات وتصفير العداد
+// 4. وظائف التنقل والتحكم
 function showPage(pageId) {
     const subhaPage = document.getElementById('subhaPage');
     const prayerPage = document.getElementById('prayerPage');
@@ -109,10 +94,8 @@ function resetCounter() {
     if(counterDisplay) counterDisplay.innerText = 0; 
 }
 
-// حماية المحتوى من القائمة المنبثقة
 document.addEventListener('contextmenu', e => e.preventDefault());
 
-// رسالة ترحيب عند تحميل التطبيق
 window.onload = function() {
     console.log("ISKAR Application is ready!");
 };
