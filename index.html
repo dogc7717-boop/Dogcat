@@ -3,52 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أذكار برو 2026</title>
+    <title>أذكار برو 2026 - النسخة الشاملة</title>
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
-<body oncontextmenu="return false;"> <div id="permission-overlay">
+<body oncontextmenu="return false;">
+
+    <div id="permission-overlay">
         <div class="permission-card">
             <h3>مرحباً بك ✨</h3>
-            <p>لتفعيل الأذان وحفظ الأذكار بدون إنترنت، يرجى الضغط أدناه:</p>
+            <p>لتفعيل صوت الأذان وحفظ سجل أذكارك، يرجى الضغط أدناه:</p>
             <button class="btn-neon" onclick="setupAppPermissions()">✅ تفعيل النظام</button>
         </div>
     </div>
 
     <div class="main-container">
-        <h3 class="section-title">📿 المسبحة الإلكترونية</h3>
-        <div class="counter-display" id="counter">0</div>
-        <div class="button-group">
-            <button class="btn-neon pulse" onclick="increment()">تسبِيح</button>
-            <button class="btn-neon" onclick="resetCounter()">تصفير</button>
-        </div>
+        
+        <section class="app-section">
+            <h3>📿 المسبحة الإلكترونية</h3>
+            <div class="settings-row">
+                <button class="btn-neon-sm" id="soundToggle" onclick="toggleSound()">🔊 صوت</button>
+                <button class="btn-neon-sm" id="vibrateToggle" onclick="toggleVibrate()">📳 اهتزاز</button>
+            </div>
+            
+            <div class="counter-display" id="mainCounter">0</div>
+            
+            <select id="thikrSelect" class="styled-select">
+                <option value="سبحان الله">سبحان الله</option>
+                <option value="الحمد لله">الحمد لله</option>
+                <option value="الله أكبر">الله أكبر</option>
+                <option value="لا إله إلا الله">لا إله إلا الله</option>
+                <option value="أستغفر الله">أستغفر الله</option>
+            </select>
 
-        <hr class="separator">
+            <div class="button-group">
+                <button class="btn-neon large pulse" onclick="increment()">تسبِيح</button>
+                <button class="btn-neon" onclick="resetCounter()">تصفير</button>
+            </div>
+            
+            <div class="logs-container">
+                <h4>📝 سجل التسابيح المكتملة:</h4>
+                <ul id="logList"></ul>
+            </div>
+        </section>
 
-        <h3 class="section-title">🗓️ مواقيت الصلاة</h3>
-        <div id="prayer-table">
-            <p>جاري تحميل البيانات...</p>
-        </div>
+        <section class="app-section">
+            <h3>📖 حصن المسلم</h3>
+            <div class="thikr-card">
+                <p id="azkarText">أذكار الصباح والمساء</p>
+                <button class="btn-neon-sm" onclick="nextThikr()">الذكر التالي ⬅️</button>
+            </div>
+        </section>
+
+        <section class="app-section">
+            <h3>🗓️ مواقيت الصلاة والأذان</h3>
+            <select id="countrySelect" class="styled-select" onchange="updatePrayerTimes()">
+                <option value="Egypt">مصر (القاهرة)</option>
+                <option value="Saudi Arabia">السعودية (مكة)</option>
+                <option value="Palestine">فلسطين (القدس)</option>
+                <option value="Jordan">الأردن</option>
+                <option value="Morocco">المغرب</option>
+            </select>
+
+            <div id="prayer-table">
+                </div>
+
+            <div class="azan-settings">
+                <h4>🔊 صوت الأذان:</h4>
+                <select id="azanVoice" class="styled-select">
+                    <option value="azan1">أذان مكة</option>
+                    <option value="azan2">أذان مدني</option>
+                    <option value="azan3">أذان الأقصى</option>
+                </select>
+                <button class="btn-neon-sm" onclick="testAzan()">▶️ تجربة الصوت</button>
+            </div>
+        </section>
+
     </div>
 
-    <div class="nav-bar">
-        <button class="btn-neon">📿 المسبحة</button>
-        <button class="btn-neon">📖 الأذكار</button>
-    </div>
+    <nav class="nav-bar">
+        <button class="btn-neon-sm active">📿 المسبحة</button>
+        <button class="btn-neon-sm">📖 الأذكار</button>
+        <button class="btn-neon-sm">🗓️ الإمساكية</button>
+    </nav>
 
     <div class="charity-bar">هذا التطبيق صدقة جارية ✨</div>
 
     <script src="script.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('sw.js');
-            });
-        }
-        // حماية إضافية لتعطيل F12
-        document.onkeydown = function(e) {
-            if(e.keyCode == 123) return false;
+            navigator.serviceWorker.register('sw.js');
         }
     </script>
 </body>
-</html>
+    </html>
