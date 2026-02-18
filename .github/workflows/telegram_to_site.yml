@@ -1,0 +1,52 @@
+name: Update Azkar from Telegram
+on:
+  repository_dispatch:
+    types: [telegram_message]
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Update azkar.json
+        run: |
+          import json
+          import os
+
+          # جلب النص القادم من التليجرام
+          new_text = os.environ.get('TEXT_FROM_TG', 'ذكر جديد')
+          
+          # التأكد من وجود الملف وقراءته
+          if os.path.exists('azkar.json'):
+              with open('azkar.json', 'r+', encoding='utf-8') as f:
+                  try:
+                      data = json.load(f)
+                  except:
+                      data = []
+                  
+                  # إضافة الذكر في بداية القائمة
+                  data.insert(0, {"text": new_text})
+                  
+                  f.seek(0)
+                  json.dump(data, f, ensure_ascii=False, indent=4)
+                  f.truncate()
+          else:
+              # إذا لم يوجد الملف ننشئه
+              with open('azkar.json', 'w', encoding='utf-8') as f:
+                  json.dump([{"text": new_text}], f, ensure_ascii=False, indent=4)
+        shell: python
+        env:
+          # هذا السطر هو الذي يربط بين تليجرام والكود
+          TEXT_FROM_TG: ${{ github.event.client_payload.text }}
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "Azkar Bot"
+          git config --global user.email "bot@github.com"
+          git add azkar.json
+          git commit -m "إضافة ذكر جديد من تليجرام"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
