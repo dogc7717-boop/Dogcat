@@ -9,37 +9,32 @@
         :root { --gold: #FFD700; --royal: #1a237e; --bg: #0a0e17; }
         body { margin: 0; background: var(--bg); color: white; font-family: 'Cairo', sans-serif; min-height: 100vh; overflow-x: hidden; padding-bottom: 80px; }
         
-        /* النافذة الإسلامية المنبثقة */
         .azkar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
         .azkar-window { width: 85%; max-width: 400px; background: var(--royal); border: 3px solid var(--gold); border-radius: 20px; padding: 30px; position: relative; text-align: center; box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); background-image: url('https://www.transparenttextures.com/patterns/islamic-art.png'); }
         .close-azkar { position: absolute; top: 10px; right: 15px; font-size: 30px; color: var(--gold); cursor: pointer; }
         .azkar-content { font-size: 1.4rem; line-height: 1.8; margin: 20px 0; font-weight: bold; color: white; }
 
-        /* الصفحات */
         .page { display: none; padding: 20px; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         
-        /* المسبحة */
         .main-circle { width: 190px; height: 190px; border: 6px solid var(--gold); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 30px auto; background: rgba(255, 215, 0, 0.05); box-shadow: 0 0 25px var(--gold); cursor: pointer; transition: transform 0.1s; }
         .main-circle:active { transform: scale(0.95); }
         #counter { font-size: 4rem; color: #00ff88; font-weight: bold; }
 
-        /* التحكم والخيارات */
         .controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 15px; }
         .controls label { font-size: 0.85rem; cursor: pointer; display: flex; align-items: center; gap: 5px; }
 
-        /* شريط التنقل */
         nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 2px solid var(--gold); z-index: 1000; }
         nav span { cursor: pointer; color: #777; font-size: 0.9rem; transition: 0.3s; }
         nav span.active { color: var(--gold); font-weight: bold; transform: scale(1.1); }
 
-        /* الإمساكية والأذكار */
         .zekr-card { background: rgba(255,255,255,0.07); padding: 15px; border-radius: 12px; border-right: 5px solid var(--gold); margin-bottom: 12px; font-size: 1.1rem; }
         table { width: 100%; border-collapse: collapse; margin-top: 15px; }
         td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
         .highlight { color: var(--gold); font-weight: bold; background: rgba(255,215,0,0.1); }
 
         select, .btn-reset { width: 100%; padding: 12px; background: var(--royal); color: gold; border: 1px solid gold; border-radius: 10px; font-family: 'Cairo'; margin-bottom: 10px; }
+        .adhan-section { margin-top: 25px; background: rgba(255,215,0,0.05); padding: 15px; border-radius: 15px; border: 1px solid var(--gold); }
         #installBtn { position: fixed; top: 10px; left: 10px; background: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 20px; font-weight: bold; z-index: 2000; cursor: pointer; font-size: 0.8rem; }
     </style>
 </head>
@@ -76,14 +71,64 @@
 
     <div id="prayerPage" class="page">
         <h2 style="text-align:center; color:gold">إمساكية رمضان 🌙</h2>
+        
         <select id="citySelect" onchange="getPrayerTimes()">
-            <option value="Cairo">القاهرة</option>
-            <option value="Mecca">مكة المكرمة</option>
-            <option value="Alexandria">الإسكندرية</option>
-            <option value="Giza">الجيزة</option>
-            <option value="Mansoura">المنصورة</option>
+            <optgroup label="محافظات مصر">
+                <option value="Cairo">القاهرة</option>
+                <option value="Alexandria">الإسكندرية</option>
+                <option value="Giza">الجيزة</option>
+                <option value="Dakahlia">الدقهلية (المنصورة)</option>
+                <option value="Port Said">بورسعيد</option>
+                <option value="Suez">السويس</option>
+                <option value="Gharbia">الغربية</option>
+                <option value="Monufia">المنوفية</option>
+                <option value="Qalyubia">القليوبية</option>
+                <option value="Kafr el-Sheikh">كفر الشيخ</option>
+                <option value="Sharqia">الشرقية</option>
+                <option value="Damietta">دمياط</option>
+                <option value="Beheira">البحيرة</option>
+                <option value="Ismailia">الإسماعيلية</option>
+                <option value="Beni Suef">بني سويف</option>
+                <option value="Faiyum">الفيوم</option>
+                <option value="Minya">المنيا</option>
+                <option value="Asyut">أسيوط</option>
+                <option value="Sohag">سوهاج</option>
+                <option value="Qena">قنا</option>
+                <option value="Luxor">الأقصر</option>
+                <option value="Aswan">أسوان</option>
+                <option value="Red Sea">البحر الأحمر</option>
+                <option value="New Valley">الوادي الجديد</option>
+                <option value="Matrouh">مطروح</option>
+                <option value="North Sinai">شمال سيناء</option>
+                <option value="South Sinai">جنوب سيناء</option>
+            </optgroup>
+            <optgroup label="العالم">
+                <option value="Mecca">مكة المكرمة</option>
+                <option value="Medina">المدينة المنورة</option>
+                <option value="Jerusalem">القدس الشريف</option>
+                <option value="Dubai">دبي</option>
+                <option value="Paris">باريس (فرنسا)</option>
+                <option value="Madrid">مدريد (إسبانيا)</option>
+                <option value="Rome">روما (إيطاليا)</option>
+                <option value="New York">نيويورك (أمريكا)</option>
+            </optgroup>
         </select>
+
         <div id="prayerTable"></div>
+
+        <div class="adhan-section">
+            <h3 style="color: gold; font-size: 1rem; margin-top: 0; text-align: center;">🔊 إعدادات الأذان</h3>
+            <select id="adhanSelect" onchange="saveAdhanPreference()">
+                <option value="Egypt.mp3">صوت الأذان 1</option>
+                <option value="Egypt_1.mp3">صوت الأذان 2</option>
+                <option value="Egypt_2.mp3">صوت الأذان 3</option>
+                <option value="Egypt_3.mp3">صوت الأذان 4</option>
+            </select>
+            <div style="display: flex; gap: 10px;">
+                <button onclick="playAdhanPreview()" style="flex: 2; padding: 10px; background: #28a745; color: white; border: none; border-radius: 8px; cursor: pointer;">▶️ تجربة</button>
+                <button onclick="stopAdhanPreview()" style="flex: 1; padding: 10px; background: #dc3545; color: white; border: none; border-radius: 8px; cursor: pointer;">⏹️</button>
+            </div>
+        </div>
     </div>
 
     <nav>
@@ -94,4 +139,4 @@
 
     <script src="script.js"></script>
 </body>
-</html>
+        </html>
