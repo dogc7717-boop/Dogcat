@@ -3,81 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ISKAR Ramadan PRO | 2026</title>
+    <title>ISKAR PRO 2026</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1a237e">
-    <link rel="apple-touch-icon" href="icon.png">
-    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #FFD700; --royal: #1a237e; --bg: #0a0e17; }
-        body { margin: 0; background: var(--bg); color: white; font-family: 'Cairo', sans-serif; min-height: 100vh; padding-bottom: 80px; overflow-x: hidden; }
-        .azkar-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 10000; align-items: center; justify-content: center; backdrop-filter: blur(8px); }
-        .azkar-window { width: 85%; max-width: 400px; background: var(--royal); border: 3px solid var(--gold); border-radius: 20px; padding: 30px; position: relative; text-align: center; box-shadow: 0 0 30px rgba(255, 215, 0, 0.5); }
-        .close-azkar { position: absolute; top: 10px; right: 15px; font-size: 30px; color: var(--gold); cursor: pointer; }
-        .azkar-content { font-size: 1.4rem; line-height: 1.8; margin: 20px 0; font-weight: bold; }
-        .page { display: none; padding: 20px; animation: fadeIn 0.5s ease; }
+        :root { --gold: #FFD700; --royal: #1a237e; --bg: #0a0e17; --green: #00ff88; }
+        body { margin: 0; background: var(--bg); color: white; font-family: 'Cairo', sans-serif; min-height: 100vh; padding-bottom: 90px; }
+        
+        .page { display: none; padding: 20px; animation: fadeIn 0.3s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .main-circle { width: 180px; height: 180px; border: 6px solid var(--gold); border-radius: 50%; display: flex; justify-content: center; align-items: center; margin: 20px auto; background: rgba(255, 215, 0, 0.05); box-shadow: 0 0 20px var(--gold); cursor: pointer; transition: transform 0.1s; }
-        #counter { font-size: 3.5rem; color: #00ff88; font-weight: bold; }
-        .sub-counter-btn { background: rgba(255,215,0,0.1); padding: 10px; border-radius: 12px; text-align: center; border: 1px solid #444; cursor: pointer; }
-        .controls { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px; background: rgba(255,255,255,0.05); padding: 10px; border-radius: 15px; }
-        nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 15px 0; border-top: 2px solid var(--gold); z-index: 1000; }
-        nav span { cursor: pointer; color: #777; font-size: 0.9rem; }
-        nav span.active { color: var(--gold); font-weight: bold; transform: scale(1.1); }
-        .zekr-card { background: rgba(255,255,255,0.07); padding: 15px; border-radius: 12px; border-right: 5px solid var(--gold); margin-bottom: 12px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        td { padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); text-align: center; }
-        .highlight { color: var(--gold); font-weight: bold; background: rgba(255,215,0,0.1); }
-        select, .btn-reset { width: 100%; padding: 12px; background: var(--royal); color: gold; border: 1px solid gold; border-radius: 10px; font-family: 'Cairo'; margin-bottom: 10px; }
-        #installBtn { display:none; position: fixed; top: 10px; left: 10px; background: #28a745; color: white; border: none; padding: 8px 15px; border-radius: 20px; z-index: 2000; cursor: pointer; }
+
+        /* المسبحة المطورة */
+        .main-circle { width: 180px; height: 180px; border: 6px solid var(--gold); border-radius: 50%; display: flex; flex-direction: column; justify-content: center; align-items: center; margin: 20px auto; background: rgba(255, 215, 0, 0.05); cursor: pointer; user-select: none; }
+        #mainCounter { font-size: 3.5rem; color: var(--green); font-weight: bold; }
+        
+        .sub-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin: 15px 0; }
+        .sub-card { background: rgba(255,255,255,0.05); padding: 10px; border-radius: 12px; text-align: center; border: 1px solid #333; position: relative; }
+        .sub-card.active { border-color: var(--gold); background: rgba(255,215,0,0.1); }
+        .reset-mini { position: absolute; top: 2px; right: 2px; font-size: 10px; color: #ff4444; cursor: pointer; padding: 5px; }
+
+        .log-section { background: rgba(0,0,0,0.3); padding: 10px; border-radius: 10px; font-size: 0.8rem; max-height: 100px; overflow-y: auto; margin-top: 10px; border: 1px inset #333; }
+
+        /* الإعدادات */
+        .setting-row { display: flex; justify-content: space-between; padding: 10px; background: rgba(255,255,255,0.05); margin-bottom: 5px; border-radius: 8px; }
+        select, button { width: 100%; padding: 12px; background: var(--royal); color: var(--gold); border: 1px solid var(--gold); border-radius: 8px; font-family: 'Cairo'; margin-bottom: 8px; cursor: pointer; }
+
+        nav { position: fixed; bottom: 0; width: 100%; background: #000; display: flex; justify-content: space-around; padding: 12px 0; border-top: 2px solid var(--gold); }
+        nav span { cursor: pointer; color: #777; font-size: 0.8rem; text-align: center; }
+        nav span.active { color: var(--gold); font-weight: bold; }
+        
+        .zekr-card { background: rgba(255,255,255,0.05); padding: 15px; margin-bottom: 8px; border-radius: 8px; border-right: 4px solid var(--gold); font-size: 0.95rem; line-height: 1.6; }
     </style>
 </head>
 <body>
 
-    <button id="installBtn">📲 تثبيت التطبيق</button>
-
-    <div id="azkarOverlay" class="azkar-overlay">
-        <div class="azkar-window">
-            <span class="close-azkar" onclick="closeAzkarWindow()">×</span>
-            <div style="color: gold;">🕌 تذكير بالذكر</div>
-            <div class="azkar-content" id="azkarPopText">لا إله إلا الله</div>
-            <button onclick="closeAzkarWindow()" style="background:var(--gold); color:black; border:none; padding:12px; border-radius:10px; width:100%; font-weight:bold;">تمت القراءة</button>
-        </div>
-    </div>
-
     <div id="subhaPage" class="page" style="display: block;">
-        <h2 style="text-align:center; color:gold">المسبحة الإلكترونية</h2>
-        <div class="main-circle" onclick="addCount()"><div id="counter">0</div></div>
-        <p style="text-align:center; color:#aaa;" id="currentZekr">انقر للبدء</p>
+        <h3 style="text-align:center; color:var(--gold); margin-bottom: 5px;">المسبحة الإلكترونية</h3>
         
-        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 15px 0;">
-            <div class="sub-counter-btn" onclick="specificZekr('subhan')"><div>سبحان الله</div><div id="subhanCount">0</div></div>
-            <div class="sub-counter-btn" onclick="specificZekr('alhamd')"><div>الحمد لله</div><div id="alhamdCount">0</div></div>
-            <div class="sub-counter-btn" onclick="specificZekr('akbar')"><div>الله أكبر</div><div id="akbarCount">0</div></div>
+        <div class="setting-row">
+            <label><input type="checkbox" id="soundKey" checked> 🔊 صوت "تك"</label>
+            <label><input type="checkbox" id="vibrateKey" checked> 📳 اهتزاز</label>
         </div>
 
-        <div class="controls">
-            <label><input type="checkbox" id="soundToggle" checked> 🔊 صوت</label>
-            <label><input type="checkbox" id="vibrateToggle" checked> 📳 اهتزاز</label>
-            <label style="color: gold;"><input type="checkbox" id="autoAzkarToggle" checked> ✨ أذكار تلقائية</label>
+        <div class="main-circle" onclick="pressSubha()">
+            <div id="mainCounter">0</div>
+            <small id="activeZekrTitle">اختر ذكراً</small>
         </div>
-        <button class="btn-reset" onclick="resetAllCounters()" style="color:#dc3545; border-color:#dc3545; background:none; margin-top:15px;">تصفير كافة العدادات</button>
+
+        <div class="sub-grid">
+            <div id="card_subhan" class="sub-card" onclick="selectType('subhan', 'سبحان الله')">
+                <span class="reset-mini" onclick="resetSingle('subhan', event)">✖</span>
+                <div>سبحان الله</div>
+                <div id="count_subhan">0</div>
+            </div>
+            <div id="card_alhamd" class="sub-card" onclick="selectType('alhamd', 'الحمد لله')">
+                <span class="reset-mini" onclick="resetSingle('alhamd', event)">✖</span>
+                <div>الحمد لله</div>
+                <div id="count_alhamd">0</div>
+            </div>
+            <div id="card_akbar" class="sub-card" onclick="selectType('akbar', 'الله أكبر')">
+                <span class="reset-mini" onclick="resetSingle('akbar', event)">✖</span>
+                <div>الله أكبر</div>
+                <div id="count_akbar">0</div>
+            </div>
+        </div>
+
+        <div style="font-size: 0.8rem; color: var(--gold);">📝 سجل التسابيح المكتملة:</div>
+        <div id="subhaLog" class="log-section"></div>
     </div>
 
     <div id="azkarPage" class="page">
-        <h2 style="text-align:center; color:gold" id="azkarTitle">أذكار الوقت</h2>
-        <div id="azkarListContainer"></div>
+        <h3 style="text-align:center; color:var(--gold);">حصن المسلم (30 ذكر)</h3>
+        <div class="setting-row">
+            <label><input type="checkbox" id="autoAzkar" checked> 🔔 أذكار كل ساعتين</label>
+        </div>
+        <div id="azkarList" style="max-height: 70vh; overflow-y: auto;"></div>
     </div>
 
     <div id="prayerPage" class="page">
-        <h2 style="text-align:center; color:gold">إمساكية رمضان 🌙</h2>
-        <select id="citySelect" onchange="getPrayerTimes()">
-            <option value="Cairo">القاهرة</option>
-            <option value="Mecca">مكة المكرمة</option>
-            <option value="Jerusalem">القدس</option>
-        </select>
-        <div id="prayerTable"></div>
+        <h3 style="text-align:center; color:var(--gold);">مواقيت الصلاة والأذان</h3>
+        <select id="countrySelect" onchange="updateCities()">
+            <option value="Egypt">مصر (جميع المحافظات)</option>
+            <option value="Saudi Arabia">السعودية</option>
+            <option value="Palestine">فلسطين</option>
+            <option value="UAE">الإمارات</option>
+            <option value="USA">الولايات المتحدة</option>
+            <option value="UK">المملكة المتحدة</option>
+            <option value="France">فرنسا</option>
+            <option value="Indonesia">إندونيسيا</option>
+            <option value="Turkey">تركيا</option>
+            <option value="Morocco">المغرب</option>
+            </select>
+        <select id="citySelect" onchange="getPrayers()"></select>
+        
+        <div id="prayerResults" style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px; margin: 10px 0;"></div>
+
+        <div style="border:1px solid var(--gold); padding:10px; border-radius:10px;">
+            <div style="font-size:0.9rem; margin-bottom:5px;">🔊 اختر الأذان:</div>
+            <select id="adhanVoice">
+                <option value="Egypt.mp3">أذان مصر</option>
+                <option value="Egypt_1.mp3">أذان مكة</option>
+                <option value="Egypt_2.mp3">أذان المدينة</option>
+                <option value="Egypt_3.mp3">أذان الأقصى</option>
+            </select>
+            <div style="display:flex; gap:5px;">
+                <button onclick="playTestAdhan()" style="background:#28a745; color:white;">▶️ تجربة</button>
+                <button onclick="stopAdhan()" style="background:#dc3545; color:white;">⏹️</button>
+            </div>
+        </div>
     </div>
 
     <nav>
@@ -87,11 +120,5 @@
     </nav>
 
     <script src="script.js"></script>
-    <script>
-        // تسجيل الـ Service Worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js').then(() => console.log("Service Worker Registered"));
-        }
-    </script>
 </body>
     </html>
