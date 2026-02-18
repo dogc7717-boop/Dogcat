@@ -1,171 +1,129 @@
-/**
+ /**
  * ISKAR - Ramadan Application 2026
  * Developed by: ISKAR (Sameh Elnady)
- * Modified for: Auto Azan & Notifications
  */
 
 let count = 0;
-let audioCtx;
-let currentAzanAudio = null;
 let deferredPrompt;
-window.lastAzanTime = "";
 
-const installBtn = document.getElementById('installBtn');
-const loadingModal = document.getElementById('loadingModal');
-const notifModal = document.getElementById('notifModal');
+const azkarData = {
+    sabah: ["أصبحنا وأصبح الملك لله والحمد لله", "يا حي يا قيوم برحمتك أستغيث", "اللهم أنت ربي لا إله إلا أنت", "سبحان الله وبحمده عدد خلقه"],
+    massa: ["أمسين وأمسى الملك لله والحمد لله", "أعوذ بكلمات الله التامات من شر ما خلق", "اللهم بك أمسينا وبك أصبحنا", "اللهم عالم الغيب والشهادة"],
+    random: [
+        "سبحان الله وبحمده، سبحان الله العظيم",
+        "اللهم صلِ وسلم على نبينا محمد",
+        "أستغفر الله العظيم وأتوب إليه",
+        "لا حول ولا قوة إلا بالله العلي العظيم",
+        "لا إله إلا الله وحده لا شريك له"
+    ]
+};
 
-// --- 1. نظام التثبيت (PWA) ---
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-});
-
-// --- 2. نظام الإشعارات والنافذة المنبثقة ---
-async function checkNotificationPermission() {
-    if (!("Notification" in window)) return;
-    
-    // إذا لم يسبق للمستخدم تحديد رأيه، أظهر النافذة المنبثقة الجميلة
-    if (Notification.permission === "default") {
-        setTimeout(() => {
-            notifModal.style.display = 'flex';
-        }, 3000); // تظهر بعد 3 ثواني من دخول التطبيق
-    }
+// --- التنقل بين الصفحات ---
+function showPage(p) {
+    document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
+    document.querySelectorAll('nav span').forEach(s => s.classList.remove('active'));
+    document.getElementById(p + 'Page').style.display = 'block';
+    document.getElementById('nav' + p.charAt(0).toUpperCase() + p.slice(1)).classList.add('active');
+    if(p === 'azkar') loadAzkar();
 }
 
-async function enableNotifications() {
-    const permission = await Notification.requestPermission();
-    notifModal.style.display = 'none';
-    if (permission === "granted") {
-        new Notification("تم تفعيل الأذان!", {
-            body: "سيقوم التطبيق بتنبيهك عند كل صلاة بإذن الله.",
-            icon: "logo.png"
-        });
-    }
-}
-
-// إرسال إشعار عند موعد الصلاة
-function sendPrayerNotification(prayerName) {
-    if (Notification.permission === "granted") {
-        navigator.serviceWorker.ready.then((registration) => {
-            registration.showNotification(`حان الآن موعد أذان ${prayerName}`, {
-                body: "حي على الصلاة.. حي على الفلاح",
-                icon: "logo.png",
-                vibrate: [200, 100, 200],
-                tag: 'azan-notification'
-            });
-        });
-    }
-}
-
-// --- 3. وظائف التسبيح ---
+// --- المسبحة ---
 function addCount() {
     count++;
     document.getElementById('counter').innerText = count;
+    
     if(document.getElementById('vibrateToggle').checked && navigator.vibrate) {
-        navigator.vibrate(40);
+        navigator.vibrate(50);
     }
+    
     if(document.getElementById('soundToggle').checked) {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        try {
-            let osc = audioCtx.createOscillator();
-            let gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.05);
-        } catch(e) { console.log("Audio Error"); }
+        let audio = new Audio('https://assets.mixkit.co/active_storage/sfx/3005/3005-preview.mp3');
+        audio.volume = 0.2;
+        audio.play().catch(()=>{});
     }
 }
-
 function resetCounter() { count = 0; document.getElementById('counter').innerText = 0; }
-function setZekr(z) { document.getElementById('zekrName').innerText = z; resetCounter(); }
 
-// --- 4. جلب المواقيت ونظام الأذان التلقائي ---
-async function getPrayerTimes() {
-    const r = document.getElementById('regionSelect').value;
-    const s = document.getElementById('citySelect');
-    const city = s.value;
-    const country = r === "Egypt" ? "Egypt" : s.options[s.selectedIndex].getAttribute("data-country");
-    const tb = document.getElementById('tableBody');
-    tb.innerHTML = "<tr><td colspan='2'>جاري التحميل...</td></tr>";
-
-    try {
-        const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=4`);
-        const d = await res.json();
-        const t = d.data.timings;
-        const pAr = {"Fajr":"الفجر","Sunrise":"الشروق","Dhuhr":"الظهر","Asr":"العصر","Maghrib":"المغرب","Isha":"العشاء"};
-        
-        tb.innerHTML = "";
-        for(let k in pAr) {
-            tb.innerHTML += `<tr><td style="color:gold">${pAr[k]}</td><td class="time-cell">${t[k]}</td></tr>`;
-        }
-    } catch(e) { tb.innerHTML = "<tr><td colspan='2'>خطأ في الاتصال</td></tr>"; }
+// --- الأذكار التلقائية ---
+function loadAzkar() {
+    const h = new Date().getHours();
+    const isMorning = (h >= 5 && h < 12);
+    document.getElementById('azkarTitle').innerText = isMorning ? "☀️ أذكار الصباح" : "🌙 أذكار المساء";
+    let html = "";
+    const list = isMorning ? azkarData.sabah : azkarData.massa;
+    list.forEach(z => { html += `<div class="zekr-card">${z}</div>`; });
+    document.getElementById('azkarListContainer').innerHTML = html;
 }
 
-function playAzan() {
-    const btn = document.getElementById('playBtn');
-    const selectedFile = document.getElementById('moazenSelect').value;
-    if (currentAzanAudio && !currentAzanAudio.paused) {
-        currentAzanAudio.pause();
-        currentAzanAudio.currentTime = 0;
-        if(btn) btn.innerText = "▶️ تجربة الأذان";
-        return;
+function showPopUp() {
+    // التحقق من مفتاح التشغيل
+    if (!document.getElementById('autoAzkarToggle').checked) return;
+
+    const rand = azkarData.random[Math.floor(Math.random() * azkarData.random.length)];
+    document.getElementById('azkarPopText').innerText = rand;
+    document.getElementById('azkarOverlay').style.display = 'flex';
+    
+    if (Notification.permission === "granted") {
+        new Notification("✨ تذكير بالذكر", { body: rand });
     }
-    currentAzanAudio = new Audio(selectedFile);
-    if(btn) btn.innerText = "⏳ جاري التحميل...";
-    currentAzanAudio.play().then(() => {
-        if(btn) btn.innerText = "⏸️ إيقاف الأذان";
-    }).catch(() => {
-        if(btn) btn.innerText = "▶️ تجربة الأذان";
-    });
 }
 
-// مراقبة الوقت كل 30 ثانية لتشغيل الأذان والإشعار
+function closeAzkarWindow() {
+    document.getElementById('azkarOverlay').style.display = 'none';
+}
+
+// --- المواقيت ---
+async function getPrayerTimes() {
+    const city = document.getElementById('citySelect').value;
+    const tableDiv = document.getElementById('prayerTable');
+    tableDiv.innerHTML = "<p style='text-align:center'>جاري التحديث...</p>";
+    
+    try {
+        const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Egypt&method=4`);
+        const data = await res.json();
+        const t = data.data.timings;
+        
+        tableDiv.innerHTML = `
+            <table>
+                <tr class="highlight"><td>🕒 الإمساك (سحور)</td><td>${t.Imsak}</td></tr>
+                <tr><td>الفجر</td><td>${t.Fajr}</td></tr>
+                <tr><td>الظهر</td><td>${t.Dhuhr}</td></tr>
+                <tr><td>العصر</td><td>${t.Asr}</td></tr>
+                <tr class="highlight"><td>🌅 المغرب (إفطار)</td><td>${t.Maghrib}</td></tr>
+                <tr><td>العشاء</td><td>${t.Isha}</td></tr>
+            </table>
+        `;
+    } catch(e) { tableDiv.innerHTML = "<p style='color:red'>خطأ في تحميل المواقيت</p>"; }
+}
+
+// --- النظام التلقائي وحفظ الإعدادات ---
 setInterval(() => {
     const now = new Date();
-    const currentTime = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
-    document.querySelectorAll(".time-cell").forEach(cell => {
-        if (cell.innerText.trim() === currentTime && window.lastAzanTime !== currentTime) {
-            const prayerName = cell.parentElement.cells[0].innerText;
-            playAzan(); // تشغيل الصوت
-            sendPrayerNotification(prayerName); // إرسال الإشعار المرئي
-            window.lastAzanTime = currentTime;
-        }
-    });
-}, 30000);
-
-// --- 5. التحكم في الواجهة ---
-function showPage(p) {
-    document.getElementById('subhaPage').style.display = p==='subha'?'block':'none';
-    document.getElementById('prayerPage').style.display = p==='prayer'?'block':'none';
-    document.getElementById('navSubha').className = p==='subha'?'active':'';
-    document.getElementById('navPrayer').className = p==='prayer'?'active':'';
-}
-
-document.addEventListener('contextmenu', e => e.preventDefault());
+    if (now.getMinutes() === 0 && now.getSeconds() < 2) showPopUp();
+}, 1000);
 
 window.onload = () => {
-    updateCityList();
-    checkNotificationPermission(); // فحص إذن الإشعارات عند التشغيل
+    getPrayerTimes();
+    if ("Notification" in window) Notification.requestPermission();
+
+    // استعادة الإعدادات المحفوظة
+    const autoState = localStorage.getItem('autoAzkar');
+    if (autoState !== null) document.getElementById('autoAzkarToggle').checked = (autoState === 'true');
+
+    // حفظ الإعدادات عند التغيير
+    document.getElementById('autoAzkarToggle').addEventListener('change', (e) => {
+        localStorage.setItem('autoAzkar', e.target.checked);
+    });
+
+    // تذكير أول عند الدخول بـ 3 ثواني
+    setTimeout(showPopUp, 3000);
 };
 
-// وظيفة تحديث المدن الأصلية (أبقيها كما هي في كودك)
-function updateCityList() {
-    const r = document.getElementById('regionSelect').value;
-    const s = document.getElementById('citySelect');
-    s.innerHTML = "";
-    const egyptCities = [{n:"القاهرة",v:"Cairo"}, {n:"الإسكندرية",v:"Alexandria"} /* ... بقية المدن ... */];
-    const worldCapitals = [{n:"السعودية - مكة", v:"Mecca", c:"Saudi Arabia"} /* ... بقية العواصم ... */];
-    const list = r === "Egypt" ? egyptCities : worldCapitals;
-    list.forEach(c => {
-        let o = document.createElement("option");
-        o.value = c.v; o.text = c.n;
-        if(c.c) o.setAttribute("data-country", c.c);
-        s.appendChild(o);
-    });
-    getPrayerTimes();
-       }
+// --- PWA Installation ---
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
+document.getElementById('installBtn').onclick = () => {
+    if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt = null;
+    } else { alert("التطبيق جاهز أو مثبت بالفعل."); }
+};
