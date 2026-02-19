@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISKAR</title>
+    <title>ISKAR - تطبيقك الرمضاني</title>
 
     <meta property="og:title" content="ISKAR - تطبيقك الرمضاني">
     <meta property="og:image" content="https://dogc7717-boop.github.io/Ramadan/cover.jpg">
-    <meta property="og:description" content="مسبحة إلكترونية، مواقيت صلاة، وأذكار متجددة .">
+    <meta property="og:description" content="مسبحة إلكترونية، مواقيت صلاة، وأذكار متجددة.">
     <meta property="og:type" content="website">
 
     <link rel="manifest" href="manifest.json">
@@ -21,28 +21,27 @@
         }
 
         body {
-            background: #0a0e17 url('cover.jpg') no-repeat center center fixed;
-            background-size: cover;
+            background: #0a0e17;
             color: white; margin: 0; font-family: 'Segoe UI', Tahoma, sans-serif;
             text-align: center; overflow-x: hidden;
+            min-height: 100vh;
         }
 
-        /* التصميم الزجاجي */
         .glass-panel {
             background: rgba(10, 14, 23, 0.8);
             backdrop-filter: blur(15px);
             border: 1px solid var(--gold);
             border-radius: 25px;
             box-shadow: var(--neon);
+            margin: 10px auto;
         }
 
-        /* نافذة الإرشادات */
         #guideModal {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
             padding: 30px; z-index: 3000; width: 85%; max-width: 450px;
+            display: none;
         }
 
-        /* العداد الدائري النيون */
         .circular-counter {
             width: 210px; height: 210px; border-radius: 50%;
             border: 6px solid var(--gold); margin: 40px auto;
@@ -52,7 +51,6 @@
         }
         .circular-counter:active { transform: scale(0.92); }
 
-        /* الأزرار والقوائم */
         .btn-neon {
             background: var(--gold); color: white; border: none; padding: 12px 25px;
             border-radius: 15px; cursor: pointer; font-weight: bold; box-shadow: var(--neon);
@@ -67,123 +65,31 @@
         .nav-bar span { cursor: pointer; color: var(--gold); font-weight: bold; }
         .nav-bar span.active { text-shadow: var(--neon); color: #fff; }
 
-        .page { padding: 60px 15px 120px; animation: fadeIn 0.5s; }
+        .page { padding: 20px 15px 120px; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
         table { width: 100%; margin-top: 20px; border-collapse: collapse; background: var(--glass); border-radius: 15px; overflow: hidden; }
-        td { padding: 15px; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
+        td { padding: 12px; border-bottom: 1px solid rgba(184, 134, 11, 0.2); }
+
+        /* ستايل المراقبة اللحظية */
+        .clock-screen { padding: 15px; margin-bottom: 15px; }
+        #live-clock { font-size: 2rem; font-weight: bold; color: var(--gold); text-shadow: var(--neon); }
+        .match-alert { background: var(--gold) !important; color: black !important; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.6; } 100% { opacity: 1; } }
     </style>
 </head>
-<body>
+<body onclick="enableAudio()">
 
     <header style="padding:15px; background:rgba(0,0,0,0.8); color:var(--gold); font-size: 1.5rem; font-weight:bold; border-bottom: 1px solid var(--gold);">ISKAR</header>
 
-    <div id="guideModal" class="glass-panel" style="display: none;">
+    <div id="guideModal" class="glass-panel">
         <h2 style="color: var(--gold);">💡 إرشادات هامة</h2>
         <div style="text-align: right; line-height: 1.8;">
-            <p>1️⃣ <b>تفعيل الأذان:</b> وافق على طلب التنبيهات واضغط على الشاشة مرة واحدة عند فتح التطبيق.</p>
-            <p>2️⃣ <b>خلفية النظام:</b> للحصول على أذان دقيق، يرجى استثناء التطبيق من "تحسين البطارية" في إعدادات هاتفك.</p>
-            <p>3️⃣ <b>التحديث:</b> التطبيق يحدث الأذكار تلقائياً   .</p>
+            <p>1️⃣ <b>تفعيل التنبيه:</b> اضغط في أي مكان لتفعيل الصوت.</p>
+            <p>2️⃣ <b>خلفية النظام:</b> استثنِ التطبيق من تحسين البطارية.</p>
         </div>
         <button class="btn-neon" onclick="startInstall()">حمل التطبيق الآن</button>
     </div>
-
-    <button id="installBtn" class="btn-neon" stbody onclick="enableAudio()"> <div class="clock-screen">
-        <div id="live-clock">00:00:00</div>
-        <div id="status">النظام يراقب الساعة الآن...</div>
-        <p style="font-size: 0.7rem; color: #888; margin-top: 10px;">(اضغط مرة واحدة على الشاشة لتفعيل صوت التنبيه)</p>
-    </div>
-
-const ramadanSchedule = [
-            {day: "1 رمضان", times: ["4:56", "5:06", "12:09", "3:20", "5:45", "7:03"]},
-            {day: "2 رمضان", times: ["4:55", "5:05", "12:09", "3:21", "5:46", "7:04"]},
-            {day: "3 رمضان", times: ["4:54", "5:04", "12:09", "3:21", "5:47", "7:04"]},
-            {day: "4 رمضان", times: ["4:53", "5:03", "12:09", "3:22", "5:47", "7:05"]},
-            {day: "5 رمضان", times: ["4:53", "5:03", "12:09", "3:22", "5:48", "7:06"]},
-            {day: "6 رمضان", times: ["4:52", "5:02", "12:08", "3:22", "5:49", "7:06"]},
-            {day: "7 رمضان", times: ["4:51", "5:01", "12:08", "3:23", "5:50", "7:07"]}
-        ];
-
-        let audioContext;
-        let isAudioReady = false;
-
-        // دالة تفعيل الصوت عند أول لمسة للشاشة (شرط أساسي للموبايل)
-        function enableAudio() {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                isAudioReady = true;
-                document.getElementById('status').innerText = "🔊 التنبيه التلقائي مفعّل";
-                document.getElementById('status').style.color = "#00ff88";
-            }
-        }
-
-        // دالة توليد صوت التنبيه الهادئ (تلقائية)
-        function triggerAutoAlarm() {
-            if (!isAudioReady) return;
-            const osc = audioContext.createOscillator();
-            const gain = audioContext.createGain();
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(440, audioContext.currentTime); // تردد هادئ
-            gain.gain.setValueAtTime(0, audioContext.currentTime);
-            gain.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.1);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
-            osc.connect(gain);
-            gain.connect(audioContext.destination);
-            osc.start();
-            osc.stop(audioContext.currentTime + 1.5);
-        }
-
-        // بناء الجدول برمجياً
-        function initTable() {
-            const tbody = document.getElementById('scheduleBody');
-            ramadanSchedule.forEach((item, dIdx) => {
-                let row = `<tr><td class="day-col">${item.day}</td>`;
-                item.times.forEach((time, tIdx) => {
-                    row += `<td id="cell-${dIdx}-${tIdx}">${time}</td>`;
-                });
-                row += `</tr>`;
-                tbody.innerHTML += row;
-            });
-        }
-
-        // وظيفة المراقبة اللحظية
-        function watchClock() {
-            const now = new Date();
-            const h = now.getHours();
-            const m = now.getMinutes();
-            const s = now.getSeconds();
-
-            // تحويل ساعة الموبايل لنظام 12 ساعة لتطابق مصفوفتك
-            const h12 = h % 12 || 12; 
-            const currentTimeStr = `${h12}:${m.toString().padStart(2, '0')}`;
-            
-            // تحديث الساعة الظاهرة
-            document.getElementById('live-clock').innerText = 
-                `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-
-            // فحص المطابقة مع المربعات
-            ramadanSchedule.forEach((day, dIdx) => {
-                day.times.forEach((time, tIdx) => {
-                    const cell = document.getElementById(`cell-${dIdx}-${tIdx}`);
-                    
-                    // إذا تطابق الوقت (الساعة والدقيقة)
-                    if (time === currentTimeStr) {
-                        cell.classList.add('match-alert');
-                        
-                        // إطلاق التنبيه الصوتي في أول ثانية فقط من الدقيقة
-                        if (s === 0) {
-                            triggerAutoAlarm();
-                        }
-                    } else {
-                        cell.classList.remove('match-alert');
-                    }
-                });
-            });
-        }
-
-        initTable();
-        setInterval(watchClock, 1000); // مراقبة كل ثانية واحدة
-    </div>yle="display:none;">📥 تثبيت  ISKAR</button>
 
     <main>
         <section id="tasbihPage" class="page">
@@ -203,34 +109,27 @@ const ramadanSchedule = [
         </section>
 
         <section id="prayerPage" class="page" style="display:none;">
-            <select id="citySelect" onchange="getPrayerTimes()" style="padding:12px; border-radius:10px; background: #000; color: var(--gold); border: 1px solid var(--gold); width: 80%;">
-                <optgroup label="مصر">
-                    
-                    <option value="Cairo">قنا</option>
-                    <option value="Cairo">الاقصر</option>
-                    <option value="Cairo">اسوان</option>
-                    <option value="Cairo">المنصورة </option>
-                    <option value="Cairo">المحلة الكبرى</option>
-                    <option value="Cairo">القاهرة</option>
-                    <option value="Alexandria">الإسكندرية</option>
-                </optgroup>
-                <optgroup label="العالم">
-                    <option value="Dubai">تونس</option>
-                    <option value="Dubai">الجزائر</option>
-                    <option value="Dubai">فلسطين(القدس)</option>
-                    <option value="Mecca">مكة المكرمة</option>
-                    <option value="Dubai">دبي</option>
-                </optgroup>
-            </select>
-            <table id="prayerTable"></table>
-            <div style="margin-top: 20px;">
-                <label>صوت الأذان: </label>
-                <select id="voiceSelect" style="background:#000; color:#fff; border:1px solid var(--gold);">
-                    <option value="Egypt.mp3">Egyptian 1</option>
-                    <option value="Egypt_1.mp3">Egyptian 2</option>
-                    <option value="Egypt_2.mp3">Egyptian 3</option>
-                </select>
+            <div class="glass-panel clock-screen">
+                <div id="live-clock">00:00:00</div>
+                <div id="status" style="font-size: 0.9rem; margin-top: 5px;">النظام يراقب الساعة الآن...</div>
             </div>
+            
+            <table id="ramadanTable">
+                <thead>
+                    <tr>
+                        <th style="color:var(--gold); padding:10px;">اليوم</th>
+                        <th style="color:var(--gold); padding:10px;">إمساك</th>
+                        <th style="color:var(--gold); padding:10px;">فجر</th>
+                        <th style="color:var(--gold); padding:10px;">ظهر</th>
+                        <th style="color:var(--gold); padding:10px;">عصر</th>
+                        <th style="color:var(--gold); padding:10px;">مغرب</th>
+                        <th style="color:var(--gold); padding:10px;">عشاء</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody"></tbody>
+            </table>
+            
+            <button id="installBtn" class="btn-neon" style="display:none; margin: 20px auto;">📥 تثبيت ISKAR</button>
         </section>
 
         <section id="azkarPage" class="page" style="display:none;">
@@ -248,6 +147,18 @@ const ramadanSchedule = [
         let count = 0;
         let currentMode = "سبحان الله";
         let deferredPrompt;
+        let audioContext;
+        let isAudioReady = false;
+
+        const ramadanSchedule = [
+            {day: "1 رمضان", times: ["4:56", "5:06", "12:09", "3:20", "5:45", "7:03"]},
+            {day: "2 رمضان", times: ["4:55", "5:05", "12:09", "3:21", "5:46", "7:04"]},
+            {day: "3 رمضان", times: ["4:54", "5:04", "12:09", "3:21", "5:47", "7:04"]},
+            {day: "4 رمضان", times: ["4:53", "5:03", "12:09", "3:22", "5:47", "7:05"]},
+            {day: "5 رمضان", times: ["4:53", "5:03", "12:09", "3:22", "5:48", "7:06"]},
+            {day: "6 رمضان", times: ["4:52", "5:02", "12:08", "3:22", "5:49", "7:06"]},
+            {day: "7 رمضان", times: ["4:51", "5:01", "12:08", "3:23", "5:50", "7:07"]}
+        ];
 
         function showPage(p) {
             document.querySelectorAll('.page').forEach(page => page.style.display = 'none');
@@ -257,7 +168,7 @@ const ramadanSchedule = [
             if(p === 'azkar') loadAzkar();
         }
 
-        // المسبحة والاهتزاز
+        // --- المسبحة ---
         function setMode(m) { currentMode = m; document.getElementById('tasbihType').innerText = m; }
         
         function handleTasbih() {
@@ -268,39 +179,9 @@ const ramadanSchedule = [
                 let audio = new Audio('https://www.soundjay.com/buttons/sounds/button-16.mp3');
                 audio.volume = 0.3; audio.play().catch(()=>{});
             }
-            if(Notification.permission === 'default') Notification.requestPermission();
         }
 
-        // المواقيت والعمل Offline
-        async function getPrayerTimes() {
-            const city = document.getElementById('citySelect').value;
-            try {
-                const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=Egypt&method=4`);
-                const data = await res.json();
-                const t = data.data.timings;
-                localStorage.setItem('iskar_times', JSON.stringify(t));
-                renderTable(t);
-            } catch {
-                const cached = JSON.parse(localStorage.getItem('iskar_times'));
-                if(cached) renderTable(cached);
-            }
-        }
-
-        function renderTable(t) {
-            const ramadanSchedule = [
-            {day: "1 رمضان", times: ["4:56", "5:06", "12:09", "3:20", "5:45", "7:03"]},
-            {day: "2 رمضان", times: ["4:55", "5:05", "12:09", "3:21", "5:46", "7:04"]},
-            {day: "3 رمضان", times: ["4:54", "5:04", "12:09", "3:21", "5:47", "7:04"]},
-            {day: "4 رمضان", times: ["4:53", "5:03", "12:09", "3:22", "5:47", "7:05"]},
-            {day: "5 رمضان", times: ["4:53", "5:03", "12:09", "3:22", "5:48", "7:06"]},
-            {day: "6 رمضان", times: ["4:52", "5:02", "12:08", "3:22", "5:49", "7:06"]},
-            {day: "7 رمضان", times: ["4:51", "5:01", "12:08", "3:23", "5:50", "7:07"]}
-        ];
-
-        let audioContext;
-        let isAudioReady = false;
-
-        // دالة تفعيل الصوت عند أول لمسة للشاشة (شرط أساسي للموبايل)
+        // --- نظام الصوت والتنبيه التلقائي ---
         function enableAudio() {
             if (!audioContext) {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -310,13 +191,12 @@ const ramadanSchedule = [
             }
         }
 
-        // دالة توليد صوت التنبيه الهادئ (تلقائية)
         function triggerAutoAlarm() {
             if (!isAudioReady) return;
             const osc = audioContext.createOscillator();
             const gain = audioContext.createGain();
             osc.type = 'sine';
-            osc.frequency.setValueAtTime(440, audioContext.currentTime); // تردد هادئ
+            osc.frequency.setValueAtTime(440, audioContext.currentTime);
             gain.gain.setValueAtTime(0, audioContext.currentTime);
             gain.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.1);
             gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 1.5);
@@ -326,11 +206,12 @@ const ramadanSchedule = [
             osc.stop(audioContext.currentTime + 1.5);
         }
 
-        // بناء الجدول برمجياً
+        // --- المواقيت ---
         function initTable() {
             const tbody = document.getElementById('scheduleBody');
+            tbody.innerHTML = "";
             ramadanSchedule.forEach((item, dIdx) => {
-                let row = `<tr><td class="day-col">${item.day}</td>`;
+                let row = `<tr><td style="color:var(--gold)">${item.day}</td>`;
                 item.times.forEach((time, tIdx) => {
                     row += `<td id="cell-${dIdx}-${tIdx}">${time}</td>`;
                 });
@@ -339,58 +220,35 @@ const ramadanSchedule = [
             });
         }
 
-        // وظيفة المراقبة اللحظية
         function watchClock() {
             const now = new Date();
             const h = now.getHours();
             const m = now.getMinutes();
             const s = now.getSeconds();
-
-            // تحويل ساعة الموبايل لنظام 12 ساعة لتطابق مصفوفتك
             const h12 = h % 12 || 12; 
             const currentTimeStr = `${h12}:${m.toString().padStart(2, '0')}`;
             
-            // تحديث الساعة الظاهرة
             document.getElementById('live-clock').innerText = 
                 `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 
-            // فحص المطابقة مع المربعات
             ramadanSchedule.forEach((day, dIdx) => {
                 day.times.forEach((time, tIdx) => {
                     const cell = document.getElementById(`cell-${dIdx}-${tIdx}`);
-                    
-                    // إذا تطابق الوقت (الساعة والدقيقة)
-                    if (time === currentTimeStr) {
-                        cell.classList.add('match-alert');
-                        
-                        // إطلاق التنبيه الصوتي في أول ثانية فقط من الدقيقة
-                        if (s === 0) {
-                            triggerAutoAlarm();
+                    if (cell) {
+                        if (time === currentTimeStr) {
+                            cell.classList.add('match-alert');
+                            if (s === 0) triggerAutoAlarm();
+                        } else {
+                            cell.classList.remove('match-alert');
                         }
-                    } else {
-                        cell.classList.remove('match-alert');
                     }
                 });
             });
         }
 
-        initTable();
-        setInterval(watchClock, 1000); // مراقبة كل ثانية واحدة
-            `;
-        }
-
-        // الأذكار وربط التيليجرام (YAML/JSON)
+        // --- الأذكار ---
         async function loadAzkar() {
-            let list = ["سبحان الله وبحمده", "أستغفر الله العظيم", "اللهم صلِ على محمد", "لا إله إلا الله", "الحمد لله"];
-            try {
-                // الربط مع الملف الذي يحدثه الـ Action الخاص بك
-                const res = await fetch('azkar_dynamic.json');
-                if(res.ok) {
-                    const data = await res.json();
-                    if(data.newZikr) list.unshift("🌟 من iskar: " + data.newZikr);
-                }
-            } catch(e) {}
-            
+            let list = ["سبحان الله وبحمده", "أستغفر الله العظيم", "اللهم صلِ على محمد", "لا إله إلا الله"];
             document.getElementById('azkarContainer').innerHTML = list.map(z => `
                 <div class="glass-panel" style="margin: 15px auto; padding: 20px; width: 85%; border-right: 5px solid var(--gold); text-align: right;">
                     ${z}
@@ -398,27 +256,28 @@ const ramadanSchedule = [
             `).join('');
         }
 
-        // نظام التحميل PWA
+        // --- PWA Installation ---
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault(); deferredPrompt = e;
             document.getElementById('installBtn').style.display = 'block';
         });
-
-        document.getElementById('installBtn').onclick = () => {
-            document.getElementById('guideModal').style.display = 'block';
-        };
 
         async function startInstall() {
             document.getElementById('guideModal').style.display = 'none';
             if(deferredPrompt) {
                 deferredPrompt.prompt();
                 deferredPrompt = null;
-                document.getElementById('installBtn').style.display = 'none';
             }
         }
 
-        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js'); }
-        window.onload = () => { getPrayerTimes(); };
+        document.getElementById('installBtn').onclick = () => {
+            document.getElementById('guideModal').style.display = 'block';
+        };
+
+        window.onload = () => {
+            initTable();
+            setInterval(watchClock, 1000);
+        };
     </script>
 </body>
-    </html>
+</html>
